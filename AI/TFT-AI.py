@@ -22,7 +22,7 @@ aikec = 0
 bcc = 1
 df = 2
 vasc = 3
-nv = 4
+nv = 4  ######################
 bkl = 5
 mel = 6
 
@@ -44,16 +44,12 @@ def main():
             np.array(images), np.array(labels), test_size=TEST_SIZE
         )
 
-        # Get a compiled neural network
         model = get_model()
 
-        # Fit model on training data
         model.fit(x_train, y_train, epochs=EPOCHS)
 
-        # Evaluate neural network performance
         model.evaluate(x_test, y_test, verbose=2)
 
-        #Save the model
         model.save(MODEL_NAME)
         print(f"Model saved to {MODEL_NAME}.")
 
@@ -137,13 +133,15 @@ def get_model():
 
         tf.keras.layers.Flatten(),
 
-        tf.keras.layers.Dense(128, activation="relu"),
-        tf.keras.layers.Dense(128, activation="relu"),
-        tf.keras.layers.Dense(128, activation="relu"),
-        tf.keras.layers.Dense(128, activation="relu"),
-        tf.keras.layers.Dense(128, activation="relu"),
-        tf.keras.layers.Dense(128, activation="relu"),
-        tf.keras.layers.Dense(128, activation="relu"),
+        tf.keras.layers.Dense(256, activation="relu"),
+        tf.keras.layers.Dense(256, activation="relu"),
+        tf.keras.layers.Dense(256, activation="relu"),
+        tf.keras.layers.Dense(256, activation="relu"),
+        tf.keras.layers.Dense(256, activation="relu"),
+        tf.keras.layers.Dense(256, activation="relu"),
+        tf.keras.layers.Dense(256, activation="relu"),
+        tf.keras.layers.Dense(256, activation="relu"),
+        tf.keras.layers.Dense(256, activation="relu"),
 
         tf.keras.layers.Dropout(0.5),
 
