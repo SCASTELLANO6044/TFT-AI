@@ -3,17 +3,28 @@ import numpy as np
 import os
 import sys
 import tensorflow as tf
+import csv
 
 from sklearn.model_selection import train_test_split
 
 EPOCHS = 10
 IMG_WIDTH = 30
 IMG_HEIGHT = 30
-NUM_CATEGORIES = 43
+NUM_CATEGORIES = 7
 TEST_SIZE = 0.4
-DATASET_DIR = os.path.join('.','gtsrb')
 MODEL_NAME = "model"
 MODEL_DIR = os.path.join('.',MODEL_NAME)
+METADATA_FILE = os.path.join('.','dataverse_files','HAM10000_metadata.csv')
+IMAGES_FOLDER_PART1 = os.path.join('.', 'dataverse_files','HAM10000_images_part_1')
+IMAGES_FOLDER_PART2 = os.path.join('.', 'dataverse_files','HAM10000_images_part_2')
+
+aikec = 0
+bcc = 1
+df = 2
+vasc = 3
+nv = 4  ######################
+bkl = 5
+mel = 6
 
 def main():
     # Check command-line arguments
@@ -25,7 +36,7 @@ def main():
         model = tf.keras.models.load_model(MODEL_DIR)
     except:
         # Get image arrays and labels for all image files
-        images, labels = load_data(DATASET_DIR)
+        images, labels = load_data()
 
         # Split data into training and testing sets
         labels = tf.keras.utils.to_categorical(labels)
@@ -33,16 +44,12 @@ def main():
             np.array(images), np.array(labels), test_size=TEST_SIZE
         )
 
-        # Get a compiled neural network
         model = get_model()
 
-        # Fit model on training data
         model.fit(x_train, y_train, epochs=EPOCHS)
 
-        # Evaluate neural network performance
         model.evaluate(x_test, y_test, verbose=2)
 
-        #Save the model
         model.save(MODEL_NAME)
         print(f"Model saved to {MODEL_NAME}.")
 
@@ -59,31 +66,48 @@ def main():
     print(f"Predicted category: {predicted_category}")
 
 
-def load_data(data_dir):
-    """
-    Load image data from directory `data_dir`.
+def load_data():
 
-    Assume `data_dir` has one directory named after each category, numbered
-    0 through NUM_CATEGORIES - 1. Inside each category directory will be some
-    number of image files.
-
-    Return tuple `(images, labels)`. `images` should be a list of all
-    the images in the data directory, where each image is formatted as a
-    numpy ndarray with dimensions IMG_WIDTH x IMG_HEIGHT x 3. `labels` should
-    be a list of integer labels, representing the categories for each of the
-    corresponding `images`.
-    """
+    metadata_dict = {}
     clean_image_list = []
     label_list = []
 
-    for folder in os.listdir(data_dir):
-        print("Processing folder: " + data_dir + os.sep + folder)
-        for file_name in os.listdir(os.path.join(data_dir, folder)):
-            raw_image = cv2.imread(os.path.join(data_dir, folder, file_name))
-            clean_image = cv2.resize(raw_image, (IMG_WIDTH, IMG_HEIGHT))
+    with open(METADATA_FILE, 'r', newline='') as data:
+        reader = csv.reader(data)
+        next(reader, None)
 
-            clean_image_list.append(clean_image)
-            label_list.append(folder)
+        for line in reader:
+            image_id = line[1]
+            lesion_type = line[2]
+            match lesion_type:
+                case 'akiec':
+                    metadata_dict[image_id] = 0
+                case 'bcc':
+                    metadata_dict[image_id] = 1
+                case 'df':
+                    metadata_dict[image_id] = 2
+                case 'vasc':
+                    metadata_dict[image_id] = 3
+                case 'nv':
+                    metadata_dict[image_id] = 4
+                case 'bkl':
+                    metadata_dict[image_id] = 5
+                case 'mel':
+                    metadata_dict[image_id] = 6
+
+    print("Start to process the 1st part of the dataset")
+    for file_name in os.listdir(IMAGES_FOLDER_PART1):
+        raw_image = cv2.imread(os.path.join(IMAGES_FOLDER_PART1,file_name))
+        clean_image = cv2.resize(raw_image, (IMG_WIDTH, IMG_HEIGHT))
+        clean_image_list.append(clean_image)
+        label_list.append(metadata_dict.get(file_name[:-4]))
+
+    print("Start to process the 2nd part of the dataset")
+    for file_name in os.listdir(IMAGES_FOLDER_PART2):
+        raw_image = cv2.imread(os.path.join(IMAGES_FOLDER_PART2,file_name))
+        clean_image = cv2.resize(raw_image, (IMG_WIDTH, IMG_HEIGHT))
+        clean_image_list.append(clean_image)
+        label_list.append(metadata_dict.get(file_name[:-4]))
 
     return clean_image_list, label_list
 
@@ -109,11 +133,15 @@ def get_model():
 
         tf.keras.layers.Flatten(),
 
-        tf.keras.layers.Dense(128, activation="relu"),
-        tf.keras.layers.Dense(128, activation="relu"),
-        tf.keras.layers.Dense(128, activation="relu"),
-        tf.keras.layers.Dense(128, activation="relu"),
-        tf.keras.layers.Dense(128, activation="relu"),
+        tf.keras.layers.Dense(256, activation="relu"),
+        tf.keras.layers.Dense(256, activation="relu"),
+        tf.keras.layers.Dense(256, activation="relu"),
+        tf.keras.layers.Dense(256, activation="relu"),
+        tf.keras.layers.Dense(256, activation="relu"),
+        tf.keras.layers.Dense(256, activation="relu"),
+        tf.keras.layers.Dense(256, activation="relu"),
+        tf.keras.layers.Dense(256, activation="relu"),
+        tf.keras.layers.Dense(256, activation="relu"),
 
         tf.keras.layers.Dropout(0.5),
 
