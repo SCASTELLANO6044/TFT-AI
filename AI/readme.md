@@ -2,6 +2,8 @@
 
 This project uses TensorFlow to implement a Convolutional Neural Network (CNN) for image classification. The goal is to classify skin lesion images into different categories. The dataset used is HAM10000, which contains skin lesion images with associated metadata.
 
+When this project is executed for the first time it will create, train, evaluate, and save a model to be used in the next executions of the script.
+
 ## Prerequisites
 
 Before running the code, make sure you have the necessary libraries installed. You can install them using the following:
@@ -9,6 +11,18 @@ Before running the code, make sure you have the necessary libraries installed. Y
 ```bash
 install -r requirements.txt
 ```
+
+1. Download the **HAM10000** dataset from this [link](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/DBW86T). 
+
+2. Copy the **dataverse_files.zip** file inside the **AI/** folder.
+
+3. Unzip the file with the option "**unzip into dataverse_files**".
+
+4. Inside the new **dataverse_files/** folder unzip the **HAM10000_images_part_1.zip** file with the option "**unzip into HAM10000_images_part_1**"
+
+5. Inside the new **dataverse_files/** folder unzip the **HAM10000_images_part_2.zip** file with the option "**unzip into HAM10000_images_part_2**"
+
+6. Change the file type of the **HAM10000_metadata** file to **HAM10000_metadata.csv**
 
 ## Usage
 
@@ -19,6 +33,10 @@ python.exe TFT-AI.py [input_image]
 ```
 
 Replace **[input_image]** with the path to the image you want to classify.
+
+## Hints
+
+To know what type of disease belongs to the selected image, I would recommend creating a table in a relational database like Postgres with the content of the **HAM10000_metadata.csv** file, in order to make SQL queries related to the selected image.
 
 ## Configuration
 
