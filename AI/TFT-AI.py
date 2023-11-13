@@ -8,8 +8,8 @@ import csv
 from sklearn.model_selection import train_test_split
 
 EPOCHS = 10
-IMG_WIDTH = 30
-IMG_HEIGHT = 30
+IMG_WIDTH = 100
+IMG_HEIGHT = 75
 NUM_CATEGORIES = 7
 TEST_SIZE = 0.4
 MODEL_NAME = "model"
@@ -125,7 +125,7 @@ def get_model():
             32,
             (3, 3),
             activation="relu",
-            input_shape=(IMG_WIDTH, IMG_HEIGHT, 3)
+            input_shape=(IMG_HEIGHT, IMG_WIDTH, 3)
         ),
 
         tf.keras.layers.MaxPooling2D(
