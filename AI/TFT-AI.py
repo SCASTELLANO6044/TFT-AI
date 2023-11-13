@@ -13,10 +13,10 @@ IMG_HEIGHT = 30
 NUM_CATEGORIES = 7
 TEST_SIZE = 0.4
 MODEL_NAME = "model"
-MODEL_DIR = os.path.join('.',MODEL_NAME)
-METADATA_FILE = os.path.join('.','dataverse_files','HAM10000_metadata.csv')
-IMAGES_FOLDER_PART1 = os.path.join('.', 'dataverse_files','HAM10000_images_part_1')
-IMAGES_FOLDER_PART2 = os.path.join('.', 'dataverse_files','HAM10000_images_part_2')
+MODEL_DIR = os.path.join('.', MODEL_NAME)
+METADATA_FILE = os.path.join('.', 'dataverse_files', 'HAM10000_metadata.csv')
+IMAGES_FOLDER_PART1 = os.path.join('.', 'dataverse_files', 'HAM10000_images_part_1')
+IMAGES_FOLDER_PART2 = os.path.join('.', 'dataverse_files', 'HAM10000_images_part_2')
 
 aikec = 0
 bcc = 1
@@ -26,13 +26,14 @@ nv = 4  ######################
 bkl = 5
 mel = 6
 
+
 def main():
     # Check command-line arguments
     if len(sys.argv) != 2:
         sys.exit("Usage: python.exe TFT-AI.py [input_image]")
 
     try:
-        #Just recover the model in case it is already trained.
+        # Just recover the model in case it is already trained.
         model = tf.keras.models.load_model(MODEL_DIR)
     except:
         # Get image arrays and labels for all image files
@@ -67,7 +68,6 @@ def main():
 
 
 def load_data():
-
     metadata_dict = {}
     clean_image_list = []
     label_list = []
@@ -97,14 +97,14 @@ def load_data():
 
     print("Start to process the 1st part of the dataset")
     for file_name in os.listdir(IMAGES_FOLDER_PART1):
-        raw_image = cv2.imread(os.path.join(IMAGES_FOLDER_PART1,file_name))
+        raw_image = cv2.imread(os.path.join(IMAGES_FOLDER_PART1, file_name))
         clean_image = cv2.resize(raw_image, (IMG_WIDTH, IMG_HEIGHT))
         clean_image_list.append(clean_image)
         label_list.append(metadata_dict.get(file_name[:-4]))
 
     print("Start to process the 2nd part of the dataset")
     for file_name in os.listdir(IMAGES_FOLDER_PART2):
-        raw_image = cv2.imread(os.path.join(IMAGES_FOLDER_PART2,file_name))
+        raw_image = cv2.imread(os.path.join(IMAGES_FOLDER_PART2, file_name))
         clean_image = cv2.resize(raw_image, (IMG_WIDTH, IMG_HEIGHT))
         clean_image_list.append(clean_image)
         label_list.append(metadata_dict.get(file_name[:-4]))
