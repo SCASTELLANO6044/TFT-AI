@@ -7,7 +7,7 @@ import csv
 
 from sklearn.model_selection import train_test_split
 
-EPOCHS = 10
+EPOCHS = 20
 IMG_WIDTH = 100
 IMG_HEIGHT = 75
 NUM_CATEGORIES = 7
