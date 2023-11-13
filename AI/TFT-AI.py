@@ -18,13 +18,14 @@ METADATA_FILE = os.path.join('.', 'dataverse_files', 'HAM10000_metadata.csv')
 IMAGES_FOLDER_PART1 = os.path.join('.', 'dataverse_files', 'HAM10000_images_part_1')
 IMAGES_FOLDER_PART2 = os.path.join('.', 'dataverse_files', 'HAM10000_images_part_2')
 
-aikec = 0
-bcc = 1
-df = 2
-vasc = 3
-nv = 4  ######################
-bkl = 5
-mel = 6
+CATEGORIES_DICT = {}
+CATEGORIES_DICT[0]='Actinic keratoses and intraepithelial carcinoma / Bowen\'s disease'
+CATEGORIES_DICT[1]='basal cell carcinoma'
+CATEGORIES_DICT[2]='dermatofibroma'
+CATEGORIES_DICT[3]='vascular lesions (angiomas, angiokeratomas, pyogenic granulomas and hemorrhage)'
+CATEGORIES_DICT[4]='melanocytic nevi'##############################
+CATEGORIES_DICT[5]='benign keratosis-like lesions'
+CATEGORIES_DICT[6]='melanoma '
 
 
 def main():
@@ -64,7 +65,7 @@ def main():
     # Get the category with the highest probability
     predicted_category = np.argmax(prediction)
 
-    print(f"Predicted category: {predicted_category}")
+    print(f"Predicted category: {CATEGORIES_DICT.get(predicted_category)}")
 
 
 def load_data():
@@ -143,7 +144,7 @@ def get_model():
         tf.keras.layers.Dense(256, activation="relu"),
         tf.keras.layers.Dense(256, activation="relu"),
 
-        tf.keras.layers.Dropout(0.5),
+        tf.keras.layers.Dropout(0.05),
 
         tf.keras.layers.Dense(
             NUM_CATEGORIES,
