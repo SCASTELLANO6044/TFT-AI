@@ -7,24 +7,26 @@ import csv
 
 from sklearn.model_selection import train_test_split
 
-EPOCHS = 10
-IMG_WIDTH = 30
-IMG_HEIGHT = 30
+EPOCHS = 20
+IMG_WIDTH = 100
+IMG_HEIGHT = 75
 NUM_CATEGORIES = 7
 TEST_SIZE = 0.4
 MODEL_NAME = "model"
-MODEL_DIR = os.path.join('.',MODEL_NAME)
-METADATA_FILE = os.path.join('.','dataverse_files','HAM10000_metadata.csv')
-IMAGES_FOLDER_PART1 = os.path.join('.', 'dataverse_files','HAM10000_images_part_1')
-IMAGES_FOLDER_PART2 = os.path.join('.', 'dataverse_files','HAM10000_images_part_2')
+MODEL_DIR = os.path.join('.', MODEL_NAME)
+METADATA_FILE = os.path.join('.', 'dataverse_files', 'HAM10000_metadata.csv')
+IMAGES_FOLDER_PART1 = os.path.join('.', 'dataverse_files', 'HAM10000_images_part_1')
+IMAGES_FOLDER_PART2 = os.path.join('.', 'dataverse_files', 'HAM10000_images_part_2')
 
-aikec = 0
-bcc = 1
-df = 2
-vasc = 3
-nv = 4  ######################
-bkl = 5
-mel = 6
+CATEGORIES_DICT = {}
+CATEGORIES_DICT[0] = 'Actinic keratoses and intraepithelial carcinoma / Bowen\'s disease'
+CATEGORIES_DICT[1] = 'basal cell carcinoma'
+CATEGORIES_DICT[2] = 'dermatofibroma'
+CATEGORIES_DICT[3] = 'vascular lesions (angiomas, angiokeratomas, pyogenic granulomas and hemorrhage)'
+CATEGORIES_DICT[4] = 'melanocytic nevi'  ##############################
+CATEGORIES_DICT[5] = 'benign keratosis-like lesions'
+CATEGORIES_DICT[6] = 'melanoma '
+
 
 def main():
     # Check command-line arguments
@@ -32,7 +34,7 @@ def main():
         sys.exit("Usage: python.exe TFT-AI.py [input_image]")
 
     try:
-        #Just recover the model in case it is already trained.
+        # Just recover the model in case it is already trained.
         model = tf.keras.models.load_model(MODEL_DIR)
     except:
         # Get image arrays and labels for all image files
@@ -63,11 +65,10 @@ def main():
     # Get the category with the highest probability
     predicted_category = np.argmax(prediction)
 
-    print(f"Predicted category: {predicted_category}")
+    print(f"Predicted category: {CATEGORIES_DICT.get(predicted_category)}")
 
 
 def load_data():
-
     metadata_dict = {}
     clean_image_list = []
     label_list = []
@@ -97,14 +98,14 @@ def load_data():
 
     print("Start to process the 1st part of the dataset")
     for file_name in os.listdir(IMAGES_FOLDER_PART1):
-        raw_image = cv2.imread(os.path.join(IMAGES_FOLDER_PART1,file_name))
+        raw_image = cv2.imread(os.path.join(IMAGES_FOLDER_PART1, file_name))
         clean_image = cv2.resize(raw_image, (IMG_WIDTH, IMG_HEIGHT))
         clean_image_list.append(clean_image)
         label_list.append(metadata_dict.get(file_name[:-4]))
 
     print("Start to process the 2nd part of the dataset")
     for file_name in os.listdir(IMAGES_FOLDER_PART2):
-        raw_image = cv2.imread(os.path.join(IMAGES_FOLDER_PART2,file_name))
+        raw_image = cv2.imread(os.path.join(IMAGES_FOLDER_PART2, file_name))
         clean_image = cv2.resize(raw_image, (IMG_WIDTH, IMG_HEIGHT))
         clean_image_list.append(clean_image)
         label_list.append(metadata_dict.get(file_name[:-4]))
@@ -124,7 +125,7 @@ def get_model():
             32,
             (3, 3),
             activation="relu",
-            input_shape=(IMG_WIDTH, IMG_HEIGHT, 3)
+            input_shape=(IMG_HEIGHT, IMG_WIDTH, 3)
         ),
 
         tf.keras.layers.MaxPooling2D(
@@ -143,7 +144,7 @@ def get_model():
         tf.keras.layers.Dense(256, activation="relu"),
         tf.keras.layers.Dense(256, activation="relu"),
 
-        tf.keras.layers.Dropout(0.5),
+        tf.keras.layers.Dropout(0.05),
 
         tf.keras.layers.Dense(
             NUM_CATEGORIES,
