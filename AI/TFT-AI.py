@@ -18,14 +18,10 @@ METADATA_FILE = os.path.join('.', 'dataverse_files', 'HAM10000_metadata.csv')
 IMAGES_FOLDER_PART1 = os.path.join('.', 'dataverse_files', 'HAM10000_images_part_1')
 IMAGES_FOLDER_PART2 = os.path.join('.', 'dataverse_files', 'HAM10000_images_part_2')
 
-CATEGORIES_DICT = {}
-CATEGORIES_DICT[0] = 'Actinic keratoses and intraepithelial carcinoma / Bowen\'s disease'
-CATEGORIES_DICT[1] = 'basal cell carcinoma'
-CATEGORIES_DICT[2] = 'dermatofibroma'
-CATEGORIES_DICT[3] = 'vascular lesions (angiomas, angiokeratomas, pyogenic granulomas and hemorrhage)'
-CATEGORIES_DICT[4] = 'melanocytic nevi'  ##############################
-CATEGORIES_DICT[5] = 'benign keratosis-like lesions'
-CATEGORIES_DICT[6] = 'melanoma '
+CATEGORIES_DICT = {0: 'Actinic keratoses and intraepithelial carcinoma / Bowen\'s disease', 1: 'basal cell carcinoma',
+                   2: 'dermatofibroma',
+                   3: 'vascular lesions (angiomas, angiokeratomas, pyogenic granulomas and hemorrhage)',
+                   4: 'melanocytic nevi', 5: 'benign keratosis-like lesions', 6: 'melanoma '}
 
 
 def main():
