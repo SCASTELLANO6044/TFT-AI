@@ -92,19 +92,13 @@ def load_data():
                 case 'mel':
                     metadata_dict[image_id] = 6
 
-    print("Start to process the 1st part of the dataset")
-    for file_name in os.listdir(IMAGES_FOLDER_PART1):
-        raw_image = cv2.imread(os.path.join(IMAGES_FOLDER_PART1, file_name))
-        clean_image = cv2.resize(raw_image, (IMG_WIDTH, IMG_HEIGHT))
-        clean_image_list.append(clean_image)
-        label_list.append(metadata_dict.get(file_name[:-4]))
-
-    print("Start to process the 2nd part of the dataset")
-    for file_name in os.listdir(IMAGES_FOLDER_PART2):
-        raw_image = cv2.imread(os.path.join(IMAGES_FOLDER_PART2, file_name))
-        clean_image = cv2.resize(raw_image, (IMG_WIDTH, IMG_HEIGHT))
-        clean_image_list.append(clean_image)
-        label_list.append(metadata_dict.get(file_name[:-4]))
+    for folder_path in [IMAGES_FOLDER_PART1, IMAGES_FOLDER_PART2]:
+        print(f"Start to process the dataset in {folder_path}")
+        for file_name in os.listdir(folder_path):
+            raw_image = cv2.imread(os.path.join(folder_path, file_name))
+            clean_image = cv2.resize(raw_image, (IMG_WIDTH, IMG_HEIGHT))
+            clean_image_list.append(clean_image)
+            label_list.append(metadata_dict.get(file_name[:-4]))
 
     return clean_image_list, label_list
 
