@@ -7,9 +7,9 @@ import csv
 
 from sklearn.model_selection import train_test_split
 
-EPOCHS = 20
-IMG_WIDTH = 100
-IMG_HEIGHT = 75
+EPOCHS = 10
+IMG_WIDTH = 224
+IMG_HEIGHT = 224
 NUM_CATEGORIES = 7
 TEST_SIZE = 0.4
 MODEL_NAME = "model"
@@ -32,7 +32,7 @@ def main():
     try:
         # Just recover the model in case it is already trained.
         model = tf.keras.models.load_model(MODEL_DIR)
-    except:
+    except OSError as e:
         # Get image arrays and labels for all image files
         images, labels = load_data()
 
@@ -92,19 +92,13 @@ def load_data():
                 case 'mel':
                     metadata_dict[image_id] = 6
 
-    print("Start to process the 1st part of the dataset")
-    for file_name in os.listdir(IMAGES_FOLDER_PART1):
-        raw_image = cv2.imread(os.path.join(IMAGES_FOLDER_PART1, file_name))
-        clean_image = cv2.resize(raw_image, (IMG_WIDTH, IMG_HEIGHT))
-        clean_image_list.append(clean_image)
-        label_list.append(metadata_dict.get(file_name[:-4]))
-
-    print("Start to process the 2nd part of the dataset")
-    for file_name in os.listdir(IMAGES_FOLDER_PART2):
-        raw_image = cv2.imread(os.path.join(IMAGES_FOLDER_PART2, file_name))
-        clean_image = cv2.resize(raw_image, (IMG_WIDTH, IMG_HEIGHT))
-        clean_image_list.append(clean_image)
-        label_list.append(metadata_dict.get(file_name[:-4]))
+    for folder_path in [IMAGES_FOLDER_PART1, IMAGES_FOLDER_PART2]:
+        print(f"Start to process the dataset in {folder_path}")
+        for file_name in os.listdir(folder_path):
+            raw_image = cv2.imread(os.path.join(folder_path, file_name))
+            clean_image = cv2.resize(raw_image, (IMG_WIDTH, IMG_HEIGHT))
+            clean_image_list.append(clean_image)
+            label_list.append(metadata_dict.get(file_name[:-4]))
 
     return clean_image_list, label_list
 
@@ -118,10 +112,103 @@ def get_model():
     model = tf.keras.models.Sequential([
 
         tf.keras.layers.Conv2D(
-            32,
+            64,
             (3, 3),
+            padding="same",
             activation="relu",
             input_shape=(IMG_HEIGHT, IMG_WIDTH, 3)
+        ),
+        tf.keras.layers.Conv2D(
+            64,
+            (3, 3),
+            padding="same",
+            activation="relu"
+        ),
+
+        tf.keras.layers.MaxPooling2D(
+            pool_size=(2, 2)
+        ),
+
+        tf.keras.layers.Conv2D(
+            128,
+            (3, 3),
+            padding="same",
+            activation="relu"
+        ),
+        tf.keras.layers.Conv2D(
+            128,
+            (3, 3),
+            padding="same",
+            activation="relu"
+        ),
+
+        tf.keras.layers.MaxPooling2D(
+            pool_size=(2, 2)
+        ),
+
+        tf.keras.layers.Conv2D(
+            256,
+            (3, 3),
+            padding="same",
+            activation="relu"
+        ),
+        tf.keras.layers.Conv2D(
+            256,
+            (3, 3),
+            padding="same",
+            activation="relu"
+        ),
+        tf.keras.layers.Conv2D(
+            256,
+            (3, 3),
+            padding="same",
+            activation="relu"
+        ),
+
+        tf.keras.layers.MaxPooling2D(
+            pool_size=(2, 2)
+        ),
+
+        tf.keras.layers.Conv2D(
+            512,
+            (3, 3),
+            padding="same",
+            activation="relu"
+        ),
+        tf.keras.layers.Conv2D(
+            512,
+            (3, 3),
+            padding="same",
+            activation="relu"
+        ),
+        tf.keras.layers.Conv2D(
+            512,
+            (3, 3),
+            padding="same",
+            activation="relu"
+        ),
+
+        tf.keras.layers.MaxPooling2D(
+            pool_size=(2, 2)
+        ),
+
+        tf.keras.layers.Conv2D(
+            512,
+            (3, 3),
+            padding="same",
+            activation="relu"
+        ),
+        tf.keras.layers.Conv2D(
+            512,
+            (3, 3),
+            padding="same",
+            activation="relu"
+        ),
+        tf.keras.layers.Conv2D(
+            512,
+            (3, 3),
+            padding="same",
+            activation="relu"
         ),
 
         tf.keras.layers.MaxPooling2D(
@@ -130,18 +217,8 @@ def get_model():
 
         tf.keras.layers.Flatten(),
 
-        tf.keras.layers.Dense(256, activation="relu"),
-        tf.keras.layers.Dense(256, activation="relu"),
-        tf.keras.layers.Dense(256, activation="relu"),
-        tf.keras.layers.Dense(256, activation="relu"),
-        tf.keras.layers.Dense(256, activation="relu"),
-        tf.keras.layers.Dense(256, activation="relu"),
-        tf.keras.layers.Dense(256, activation="relu"),
-        tf.keras.layers.Dense(256, activation="relu"),
-        tf.keras.layers.Dense(256, activation="relu"),
-
-        tf.keras.layers.Dropout(0.05),
-
+        tf.keras.layers.Dense(4096, activation="relu"),
+        tf.keras.layers.Dense(4096, activation="relu"),
         tf.keras.layers.Dense(
             NUM_CATEGORIES,
             activation="softmax")
