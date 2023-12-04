@@ -32,7 +32,7 @@ def main():
     try:
         # Just recover the model in case it is already trained.
         model = tf.keras.models.load_model(MODEL_DIR)
-    except:
+    except OSError:
         # Get image arrays and labels for all image files
         images, labels = load_data()
 
