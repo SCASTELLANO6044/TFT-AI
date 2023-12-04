@@ -13,55 +13,15 @@ IMG_HEIGHT = 75
 NUM_CATEGORIES = 7
 TEST_SIZE = 0.4
 MODEL_NAME = "model"
-MODEL_DIR = os.path.join('.', MODEL_NAME)
-METADATA_FILE = os.path.join('.', 'dataverse_files', 'HAM10000_metadata.csv')
-IMAGES_FOLDER_PART1 = os.path.join('.', 'dataverse_files', 'HAM10000_images_part_1')
-IMAGES_FOLDER_PART2 = os.path.join('.', 'dataverse_files', 'HAM10000_images_part_2')
+MODEL_DIR = os.path.join('.', 'data', MODEL_NAME)
+METADATA_FILE = os.path.join('.', 'data', 'dataverse_files', 'HAM10000_metadata.csv')
+IMAGES_FOLDER_PART1 = os.path.join('.', 'data', 'dataverse_files', 'HAM10000_images_part_1')
+IMAGES_FOLDER_PART2 = os.path.join('.', 'data', 'dataverse_files', 'HAM10000_images_part_2')
 
 CATEGORIES_DICT = {0: 'Actinic keratoses and intraepithelial carcinoma / Bowen\'s disease', 1: 'basal cell carcinoma',
                    2: 'dermatofibroma',
                    3: 'vascular lesions (angiomas, angiokeratomas, pyogenic granulomas and hemorrhage)',
                    4: 'melanocytic nevi', 5: 'benign keratosis-like lesions', 6: 'melanoma '}
-
-
-def main():
-    # Check command-line arguments
-    if len(sys.argv) != 2:
-        sys.exit("Usage: python.exe TFT-AI.py [input_image]")
-
-    try:
-        # Just recover the model in case it is already trained.
-        model = tf.keras.models.load_model(MODEL_DIR)
-    except OSError:
-        # Get image arrays and labels for all image files
-        images, labels = load_data()
-
-        # Split data into training and testing sets
-        labels = tf.keras.utils.to_categorical(labels)
-        x_train, x_test, y_train, y_test = train_test_split(
-            np.array(images), np.array(labels), test_size=TEST_SIZE
-        )
-
-        model = get_model()
-
-        model.fit(x_train, y_train, epochs=EPOCHS)
-
-        model.evaluate(x_test, y_test, verbose=2)
-
-        model.save(MODEL_NAME)
-        print(f"Model saved to {MODEL_NAME}.")
-
-    img_to_predict = cv2.imread(sys.argv[1])  # Replace with the path to your test image
-    img_to_predict = cv2.resize(img_to_predict, (IMG_WIDTH, IMG_HEIGHT))
-    img_to_predict = np.expand_dims(img_to_predict, axis=0)
-
-    # Make a prediction
-    prediction = model.predict(img_to_predict)
-
-    # Get the category with the highest probability
-    predicted_category = np.argmax(prediction)
-
-    print(f"Predicted category: {CATEGORIES_DICT.get(predicted_category)}")
 
 
 def load_data():
@@ -150,5 +110,44 @@ def get_model():
     return model
 
 
-if __name__ == "__main__":
-    main()
+class Model:
+
+    @staticmethod
+    def main():
+        # Check command-line arguments
+        if len(sys.argv) != 2:
+            sys.exit("Usage: python.exe TFTAI.py [input_image]")
+
+        try:
+            # Just recover the model in case it is already trained.
+            model = tf.keras.models.load_model(MODEL_DIR)
+        except OSError:
+            # Get image arrays and labels for all image files
+            images, labels = load_data()
+
+            # Split data into training and testing sets
+            labels = tf.keras.utils.to_categorical(labels)
+            x_train, x_test, y_train, y_test = train_test_split(
+                np.array(images), np.array(labels), test_size=TEST_SIZE
+            )
+
+            model = get_model()
+
+            model.fit(x_train, y_train, epochs=EPOCHS)
+
+            model.evaluate(x_test, y_test, verbose=2)
+
+            model.save(MODEL_NAME)
+            print(f"Model saved to {MODEL_NAME}.")
+
+        img_to_predict = cv2.imread(sys.argv[1])  # Replace with the path to your test image
+        img_to_predict = cv2.resize(img_to_predict, (IMG_WIDTH, IMG_HEIGHT))
+        img_to_predict = np.expand_dims(img_to_predict, axis=0)
+
+        # Make a prediction
+        prediction = model.predict(img_to_predict)
+
+        # Get the category with the highest probability
+        predicted_category = np.argmax(prediction)
+
+        print(f"Predicted category: {CATEGORIES_DICT.get(predicted_category)}")
