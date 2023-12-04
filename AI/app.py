@@ -1,7 +1,9 @@
-from model.model import Model
+from controller.controller import Controller
+
 
 def main():
-    Model.main()
+    Controller.start_app()
+
 
 if __name__ == "__main__":
     main()
