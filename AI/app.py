@@ -1,4 +1,4 @@
-from model.TFTAI import Model
+from model.model import Model
 
 def main():
     Model.main()

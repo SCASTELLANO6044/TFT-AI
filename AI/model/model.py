@@ -116,7 +116,7 @@ class Model:
     def main():
         # Check command-line arguments
         if len(sys.argv) != 2:
-            sys.exit("Usage: python.exe TFTAI.py [input_image]")
+            sys.exit("Usage: python.exe app.py [input_image]")
 
         try:
             # Just recover the model in case it is already trained.
