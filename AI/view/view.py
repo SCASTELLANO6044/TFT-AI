@@ -11,14 +11,25 @@ def predict_button_action():
     Controller.run_ai()
 
 
+def change_theme():
+    if customtkinter.get_appearance_mode() == "Dark":
+        customtkinter.set_appearance_mode("light")
+    else:
+        customtkinter.set_appearance_mode("dark")
+
+
 class IntputFrame(customtkinter.CTkFrame):
     def __init__(self, master):
         super().__init__(master)
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(2, weight=1)
 
-        self.button = customtkinter.CTkButton(self, text="Predict", command=predict_button_action)
-        self.button.grid(row=2, column=0, padx=10, pady=10, sticky="sew")
+        self.switch = customtkinter.CTkSwitch(self, text="", command=change_theme, variable=None, onvalue="on",
+                                              offvalue="off")
+        self.switch.grid(row=0, column=0, padx=0, pady=10, sticky="ne")
+
+        self.predict_button = customtkinter.CTkButton(self, text="Predict", command=predict_button_action)
+        self.predict_button.grid(row=2, column=0, padx=10, pady=10, sticky="sew")
 
 
 class App(customtkinter.CTk):
