@@ -5,7 +5,20 @@ from controller.controller import Controller
 from PIL import Image
 
 
+def predict_button_action():
+    prediction = Controller.run_ai()
+    Controller.show_prediction(prediction)
+
+
+def change_theme():
+    if customtkinter.get_appearance_mode() == "Dark":
+        customtkinter.set_appearance_mode("light")
+    else:
+        customtkinter.set_appearance_mode("dark")
+
+
 class OutputFrame(customtkinter.CTkFrame):
+
     def __init__(self, master):
         super().__init__(master)
         self.grid_columnconfigure(0, weight=1)
@@ -22,17 +35,6 @@ class OutputFrame(customtkinter.CTkFrame):
 
     def set_image_label(self, content):
         self.image_label.configure(self, text=content)
-
-
-def predict_button_action():
-    prediction = Controller.run_ai()
-
-
-def change_theme():
-    if customtkinter.get_appearance_mode() == "Dark":
-        customtkinter.set_appearance_mode("light")
-    else:
-        customtkinter.set_appearance_mode("dark")
 
 
 class IntputFrame(customtkinter.CTkFrame):
