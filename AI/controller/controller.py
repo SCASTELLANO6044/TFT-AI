@@ -10,4 +10,4 @@ class Controller:
 
     @staticmethod
     def run_ai():
-        Model.main()
+        return Model.main()

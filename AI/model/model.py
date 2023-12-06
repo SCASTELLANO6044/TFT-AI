@@ -149,4 +149,4 @@ class Model:
         # Get the category with the highest probability
         predicted_category = np.argmax(prediction)
 
-        print(f"Predicted category: {CATEGORIES_DICT.get(predicted_category)}")
+        return predicted_category
