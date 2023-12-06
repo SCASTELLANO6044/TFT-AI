@@ -28,7 +28,6 @@ def predict_button_action():
     prediction = Controller.run_ai()
 
 
-
 def change_theme():
     if customtkinter.get_appearance_mode() == "Dark":
         customtkinter.set_appearance_mode("light")
