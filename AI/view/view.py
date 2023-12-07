@@ -7,7 +7,7 @@ from PIL import Image
 
 def predict_button_action():
     prediction = Controller.run_ai()
-    Controller.show_prediction(prediction)
+    print(prediction)
 
 
 def change_theme():
