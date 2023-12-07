@@ -1,4 +1,9 @@
 .idea/
 AI/gtsrb/
-AI/model/
-AI/dataverse_files/
+AI/data/dataverse_files/
+AI/data/model/
+AI/__pycache__/
+AI/controller/__pycache__/
+AI/model/__pycache__/
+AI/view/__pycache__/
+AI/*.jpg

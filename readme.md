@@ -9,12 +9,12 @@ When this project is executed for the first time it will create, train, evaluate
 Before running the code, make sure you have the necessary libraries installed. You can install them using the following:
 
 ```bash
-install -r requirements.txt
+pip3 install -r requirements.txt
 ```
 
 1. Download the **HAM10000** dataset from this [link](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/DBW86T). 
 
-2. Copy the **dataverse_files.zip** file inside the **AI/** folder.
+2. Copy the **dataverse_files.zip** file inside the **AI/data/** folder.
 
 3. Unzip the file with the option "**unzip into dataverse_files**".
 
