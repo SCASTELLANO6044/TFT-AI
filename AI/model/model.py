@@ -7,11 +7,12 @@ import csv
 
 from sklearn.model_selection import train_test_split
 
-EPOCHS = 20
+EPOCHS = 40
 IMG_WIDTH = 100
 IMG_HEIGHT = 75
 NUM_CATEGORIES = 7
 TEST_SIZE = 0.2
+MODEL_NAME = "my_model.keras"
 MODEL_DIR = os.path.join('.', 'data', 'model')
 METADATA_FILE = os.path.join('.', 'data', 'dataverse_files', 'HAM10000_metadata.csv')
 IMAGES_FOLDER_PART1 = os.path.join('.', 'data', 'dataverse_files', 'HAM10000_images_part_1')
@@ -70,19 +71,19 @@ def get_model():
     """
     model = tf.keras.models.Sequential([
 
-        tf.keras.layers.Conv2D(16, (3, 3), 1, activation="relu", input_shape=(IMG_HEIGHT, IMG_WIDTH, 3)),
+        tf.keras.layers.Conv2D(16, (3, 3), 1, kernel_regularizer=tf.keras.regularizers.l2(0.001), activation="relu", input_shape=(IMG_HEIGHT, IMG_WIDTH, 3)),
         tf.keras.layers.MaxPooling2D(),
 
-        tf.keras.layers.Conv2D(32, (3, 3), 1, activation="relu"),
+        tf.keras.layers.Conv2D(32, (3, 3), 1, kernel_regularizer=tf.keras.regularizers.l2(0.001), activation="relu"),
         tf.keras.layers.MaxPooling2D(),
 
-        tf.keras.layers.Conv2D(16, (3, 3), 1, activation="relu"),
+        tf.keras.layers.Conv2D(16, (3, 3), 1, kernel_regularizer=tf.keras.regularizers.l2(0.001), activation="relu"),
         tf.keras.layers.MaxPooling2D(),
 
         tf.keras.layers.Flatten(),
 
-        tf.keras.layers.Dense(256, activation="relu"),
-        tf.keras.layers.Dropout(0.25),
+        tf.keras.layers.Dense(16, kernel_regularizer=tf.keras.regularizers.l2(0.001), activation="relu"),
+        tf.keras.layers.Dropout(0.5),
         tf.keras.layers.Dense(NUM_CATEGORIES, activation="softmax")
     ])
 
@@ -105,7 +106,7 @@ class Model:
 
         try:
             # Just recover the model in case it is already trained.
-            model = tf.keras.models.load_model(MODEL_DIR)
+            model = tf.keras.models.load_model(os.path.join(MODEL_DIR, MODEL_NAME))
         except OSError:
             # Get image arrays and labels for all image files
             images, labels = load_data()
@@ -122,7 +123,7 @@ class Model:
 
             model.evaluate(x_test, y_test, verbose=2)
 
-            model.save(MODEL_DIR)
+            model.save(filepath= os.path.join(MODEL_DIR,MODEL_NAME), overwrite= True, save_format="keras")
             print(f"Model saved to {MODEL_DIR}.")
 
         img_to_predict = cv2.imread(sys.argv[1])  # Replace with the path to your test image
