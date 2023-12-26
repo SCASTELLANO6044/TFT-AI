@@ -12,7 +12,7 @@ IMG_WIDTH = 100
 IMG_HEIGHT = 75
 NUM_CATEGORIES = 7
 TEST_SIZE = 0.4
-MODEL_DIR = os.path.join('.', 'data', "model")
+MODEL_DIR = os.path.join('.', 'data', 'model')
 METADATA_FILE = os.path.join('.', 'data', 'dataverse_files', 'HAM10000_metadata.csv')
 IMAGES_FOLDER_PART1 = os.path.join('.', 'data', 'dataverse_files', 'HAM10000_images_part_1')
 IMAGES_FOLDER_PART2 = os.path.join('.', 'data', 'dataverse_files', 'HAM10000_images_part_2')
@@ -82,6 +82,7 @@ def get_model():
         tf.keras.layers.Flatten(),
 
         tf.keras.layers.Dense(256, activation="relu"),
+        tf.keras.layers.Dropout(0.25),
         tf.keras.layers.Dense(NUM_CATEGORIES, activation="softmax")
     ])
 

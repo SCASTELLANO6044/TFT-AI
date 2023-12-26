@@ -6,7 +6,7 @@ class Controller:
     @staticmethod
     def start_app():
         from view.view import App
-        app = App()
+        App()
 
     @staticmethod
     def run_ai():
