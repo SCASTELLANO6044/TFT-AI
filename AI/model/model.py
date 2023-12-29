@@ -69,7 +69,13 @@ def get_model():
     `input_shape` of the first layer is `(IMG_WIDTH, IMG_HEIGHT, 3)`.
     The output layer should have `NUM_CATEGORIES` units, one for each category.
     """
+
     model = tf.keras.models.Sequential([
+
+        # Preprocessing
+        tf.keras.layers.Rescaling(1. / 255),
+        tf.keras.layers.RandomFlip("horizontal_and_vertical"),
+        tf.keras.layers.RandomRotation(0.2),
 
         tf.keras.layers.Conv2D(16, (3, 3), 1, kernel_regularizer=tf.keras.regularizers.l2(0.001), activation="relu", input_shape=(IMG_HEIGHT, IMG_WIDTH, 3)),
         tf.keras.layers.MaxPooling2D(),
