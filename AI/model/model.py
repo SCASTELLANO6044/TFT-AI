@@ -36,21 +36,10 @@ def load_data():
         for line in reader:
             image_id = line[1]
             lesion_type = line[2]
-            match lesion_type:
-                case 'akiec':
-                    metadata_dict[image_id] = 0
-                case 'bcc':
-                    metadata_dict[image_id] = 1
-                case 'df':
-                    metadata_dict[image_id] = 2
-                case 'vasc':
-                    metadata_dict[image_id] = 3
-                case 'nv':
-                    metadata_dict[image_id] = 4
-                case 'bkl':
-                    metadata_dict[image_id] = 5
-                case 'mel':
-                    metadata_dict[image_id] = 6
+            metadata_dict[image_id] = {
+                'akiec': 0, 'bcc': 1, 'df': 2,
+                'vasc': 3, 'nv': 4, 'bkl': 5, 'mel': 6
+            }[lesion_type]
 
     for folder_path in [IMAGES_FOLDER_PART1, IMAGES_FOLDER_PART2]:
         print(f"Start to process the dataset in {folder_path}")
@@ -73,7 +62,6 @@ def get_model():
     model = tf.keras.models.Sequential([
 
         # Preprocessing
-        tf.keras.layers.Rescaling(1. / 255),
         tf.keras.layers.RandomFlip("horizontal_and_vertical"),
         tf.keras.layers.RandomRotation(0.2),
 
@@ -117,10 +105,13 @@ class Model:
             # Get image arrays and labels for all image files
             images, labels = load_data()
 
+            labels = np.array(labels)
+            images = np.array(images) / 255.0
+
             # Split data into training and testing sets
             labels = tf.keras.utils.to_categorical(labels)
             x_train, x_test, y_train, y_test = train_test_split(
-                np.array(images), np.array(labels), test_size=TEST_SIZE
+                images, labels, test_size=TEST_SIZE, random_state=42
             )
 
             model = get_model()
