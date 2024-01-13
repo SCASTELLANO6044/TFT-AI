@@ -9,7 +9,7 @@ When this project is executed for the first time it will create, train, evaluate
 Before running the code, make sure you have the necessary libraries installed. You can install them using the following:
 
 ```bash
-pip3 install -r requirements.txt
+pip install -r requirements.txt
 ```
 
 1. Download the **HAM10000** dataset from this [link](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/DBW86T). 
