@@ -4,4 +4,3 @@ tensorflow
 customtkinter
 numpy
 Pillow
-wrapt
