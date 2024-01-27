@@ -5,7 +5,7 @@ class Controller:
 
     @staticmethod
     def start_app():
-        from view.view import App
+        from view.main_view import App
         App()
 
     @staticmethod
