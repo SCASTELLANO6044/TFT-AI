@@ -93,7 +93,7 @@ def model_2():
 
     return model
 
-def get_denseNet121():
+def get_dense_net121():
     base_model = tf.keras.applications.DenseNet121(weights=None, include_top=False,
                                                 input_shape=(IMG_HEIGHT, IMG_WIDTH, 3))
     model = tf.keras.models.Sequential()
@@ -134,10 +134,11 @@ def get_xception_model():
 class Model:
 
     @staticmethod
-    def main():
-        # Check command-line arguments
-        if len(sys.argv) != 2:
-            sys.exit("Usage: python.exe app.py [input_image]")
+    def main(image_path):
+
+        # # Check command-line arguments
+        # if len(sys.argv) != 2:
+        #     sys.exit("Usage: python.exe app.py [input_image]")
 
         try:
             # Just recover the model in case it is already trained.
@@ -155,7 +156,7 @@ class Model:
                 images, labels, test_size=TEST_SIZE, random_state=42
             )
 
-            model = get_denseNet121()
+            model = get_model()
 
             model.fit(x_train, y_train, epochs=EPOCHS)
 
@@ -164,7 +165,7 @@ class Model:
             model.save(filepath= os.path.join(MODEL_DIR,MODEL_NAME), overwrite= True, save_format="keras")
             print(f"Model saved to {MODEL_DIR}.")
 
-        img_to_predict = cv2.imread(sys.argv[1])  # Replace with the path to your test image
+        img_to_predict = cv2.imread(image_path)  # Replace with the path to your test image
         img_to_predict = cv2.resize(img_to_predict, (IMG_WIDTH, IMG_HEIGHT))
         img_to_predict = np.expand_dims(img_to_predict, axis=0)
 

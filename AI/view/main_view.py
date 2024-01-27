@@ -2,6 +2,7 @@ import customtkinter
 from controller.controller import Controller
 from view.input_view import IntputFrame
 from view.output_view import OutputFrame
+from tkinter import filedialog
 
 
 class App(customtkinter.CTk):
@@ -22,8 +23,8 @@ class App(customtkinter.CTk):
         self.input_frame.grid(row=0, column=1, padx=10, pady=10, sticky="nsew")
 
     def predict_button_action(self):
-        prediction = Controller.run_ai()
-        print(prediction)
+        prediction = Controller.run_ai(self.output_frame.get_image())
+        self.output_frame.set_image_label(prediction)
 
     def change_theme(self):
         if customtkinter.get_appearance_mode() == "Dark":
@@ -33,6 +34,10 @@ class App(customtkinter.CTk):
 
     def set_image_label(self, content):
         self.image_label.configure(self, text=content)
+
+    def browse_file(self):
+        file = filedialog.askopenfile()
+        self.output_frame.display_image(file.name)
 
 app = App()
 app.mainloop()

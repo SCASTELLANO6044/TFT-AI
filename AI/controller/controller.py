@@ -9,5 +9,5 @@ class Controller:
         App()
 
     @staticmethod
-    def run_ai():
-        return Model.main()
+    def run_ai(image_path):
+        return Model.main(image_path)
