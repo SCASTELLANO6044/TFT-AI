@@ -1,0 +1,9 @@
+Model, Train_Result, Evaluate_Result,Fail
+get_model,90 , 72.5,false
+model2,77.5,75.5,false
+get_xception_model,,,false
+get_restnet50,70,70,false
+get_restnet110,70,70,false
+get_convexNetTiny,,,true
+get_denseNet121,88.4,75.89,false
+,80,75.59,false

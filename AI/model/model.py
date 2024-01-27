@@ -53,7 +53,7 @@ def load_data():
 
 
 def get_model():
-    """
+    """Mece
     Returns a compiled convolutional neural network model. Assume that the
     `input_shape` of the first layer is `(IMG_WIDTH, IMG_HEIGHT, 3)`.
     The output layer should have `NUM_CATEGORIES` units, one for each category.
@@ -61,34 +61,75 @@ def get_model():
 
     model = tf.keras.models.Sequential([
 
-        # Preprocessing
-        tf.keras.layers.RandomFlip("horizontal_and_vertical"),
-        tf.keras.layers.RandomRotation(0.2),
-
-        tf.keras.layers.Conv2D(16, (3, 3), 1, kernel_regularizer=tf.keras.regularizers.l2(0.001), activation="relu", input_shape=(IMG_HEIGHT, IMG_WIDTH, 3)),
-        tf.keras.layers.MaxPooling2D(),
-
-        tf.keras.layers.Conv2D(32, (3, 3), 1, kernel_regularizer=tf.keras.regularizers.l2(0.001), activation="relu"),
-        tf.keras.layers.MaxPooling2D(),
-
-        tf.keras.layers.Conv2D(16, (3, 3), 1, kernel_regularizer=tf.keras.regularizers.l2(0.001), activation="relu"),
-        tf.keras.layers.MaxPooling2D(),
-
+        tf.keras.layers.Conv2D(32, (3, 3), activation='relu', input_shape=(IMG_HEIGHT, IMG_WIDTH, 3)),
+        tf.keras.layers.MaxPooling2D(pool_size=(2, 2)),
         tf.keras.layers.Flatten(),
-
-        tf.keras.layers.Dense(16, kernel_regularizer=tf.keras.regularizers.l2(0.001), activation="relu"),
+        tf.keras.layers.Dense(128,  activation='relu'),
         tf.keras.layers.Dropout(0.5),
-        tf.keras.layers.Dense(NUM_CATEGORIES, activation="softmax")
+        tf.keras.layers.Dense(NUM_CATEGORIES, activation='softmax')
     ])
 
-    model.compile(
-        optimizer="adam",
-        loss="categorical_crossentropy",
-        metrics=["accuracy"]
-    )
+    model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+    return model
+
+
+def model_2():
+    model = tf.keras.models.Sequential([
+        tf.keras.layers.Conv2D(32, (3, 3), activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.001),
+                               input_shape=(IMG_HEIGHT, IMG_WIDTH, 3)),
+        tf.keras.layers.MaxPooling2D(pool_size=(2, 2)),
+        tf.keras.layers.Conv2D(64, (3, 3), activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.001)),
+        tf.keras.layers.MaxPooling2D(pool_size=(2, 2)),
+        tf.keras.layers.Conv2D(128, (3, 3), activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.001)),
+        tf.keras.layers.MaxPooling2D(pool_size=(2, 2)),
+        tf.keras.layers.Flatten(),
+        tf.keras.layers.Dense(256, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.001)),
+        tf.keras.layers.Dropout(0.5),
+        tf.keras.layers.Dense(NUM_CATEGORIES, activation='softmax')
+    ])
+
+    model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=0.0001), loss='categorical_crossentropy',
+                  metrics=['accuracy'])
 
     return model
 
+def get_denseNet121():
+    base_model = tf.keras.applications.DenseNet121(weights=None, include_top=False,
+                                                input_shape=(IMG_HEIGHT, IMG_WIDTH, 3))
+    model = tf.keras.models.Sequential()
+    model.add(base_model)
+    model.add(tf.keras.layers.GlobalAveragePooling2D())
+    model.add(tf.keras.layers.Dense(128, kernel_regularizer=tf.keras.regularizers.l2(0.001), activation='relu'))
+    model.add(tf.keras.layers.Dropout(0.5))
+    model.add(tf.keras.layers.Dense(NUM_CATEGORIES, activation='softmax'))
+
+    # Freeze the layers of the pre-trained Xception model
+    # for layer in base_model.layers:
+    #     layer.trainable = False
+
+    model.compile(optimizer='Adam', loss='categorical_crossentropy', metrics=['accuracy'])
+
+    return model
+
+def get_xception_model():
+    base_model = tf.keras.applications.Xception(weights='imagenet', include_top=False, input_shape=(IMG_HEIGHT, IMG_WIDTH, 3))
+
+    model = tf.keras.models.Sequential()
+    model.add(base_model)
+    model.add(tf.keras.layers.GlobalAveragePooling2D())
+    model.add(tf.keras.layers.Dense(256, activation='relu'))
+    model.add(tf.keras.layers.Dropout(0.5))
+    model.add(tf.keras.layers.Dense(128, activation='relu'))
+    model.add(tf.keras.layers.Dropout(0.5))
+    model.add(tf.keras.layers.Dense(NUM_CATEGORIES, activation='softmax'))
+
+    # Freeze the layers of the pre-trained Xception model
+    for layer in base_model.layers:
+        layer.trainable = False
+
+    model.compile(optimizer='Adam', loss='categorical_crossentropy', metrics=['accuracy'])
+
+    return model
 
 class Model:
 
@@ -114,7 +155,7 @@ class Model:
                 images, labels, test_size=TEST_SIZE, random_state=42
             )
 
-            model = get_model()
+            model = get_denseNet121()
 
             model.fit(x_train, y_train, epochs=EPOCHS)
 
