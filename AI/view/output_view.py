@@ -15,8 +15,11 @@ class OutputFrame(customtkinter.CTkFrame):
         self.my_image = customtkinter.CTkImage(light_image=Image.open(self.image_path),
                                                size=(400, 210))
 
-        self.image_label = customtkinter.CTkLabel(self, image=self.my_image, text="")
-        self.image_label.grid(row=1, column=0, padx=0, pady=10, sticky="ew")
+        self.label = customtkinter.CTkLabel(self, image=self.my_image, text="")
+        self.label.grid(row=1, column=0, padx=0, pady=0, sticky="ew")
+
+        self.image_label = customtkinter.CTkLabel(self, text= "", font=("Helvetica", 23))
+        self.image_label.grid(row=2, column=0, padx=0, pady=(0,50), sticky="nsew")
 
     def display_image(self, image_path):
         self.image_path = image_path
@@ -27,4 +30,4 @@ class OutputFrame(customtkinter.CTkFrame):
         return self.image_path
 
     def set_image_label(self, prediction):
-        self.image_label.configure(text=prediction)
+        self.image_label.configure(text="Predicción: "+prediction)
