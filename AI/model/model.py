@@ -136,10 +136,6 @@ class Model:
     @staticmethod
     def main(image_path):
 
-        # # Check command-line arguments
-        # if len(sys.argv) != 2:
-        #     sys.exit("Usage: python.exe app.py [input_image]")
-
         try:
             # Just recover the model in case it is already trained.
             model = tf.keras.models.load_model(os.path.join(MODEL_DIR, MODEL_NAME))
