@@ -64,7 +64,7 @@ def get_model():
         tf.keras.layers.Conv2D(32, (3, 3), activation='relu', input_shape=(IMG_HEIGHT, IMG_WIDTH, 3)),
         tf.keras.layers.MaxPooling2D(pool_size=(2, 2)),
         tf.keras.layers.Flatten(),
-        tf.keras.layers.Dense(128,  activation='relu'),
+        tf.keras.layers.Dense(128, activation='relu'),
         tf.keras.layers.Dropout(0.5),
         tf.keras.layers.Dense(NUM_CATEGORIES, activation='softmax')
     ])
@@ -93,9 +93,10 @@ def model_2():
 
     return model
 
+
 def get_dense_net121():
     base_model = tf.keras.applications.DenseNet121(weights=None, include_top=False,
-                                                input_shape=(IMG_HEIGHT, IMG_WIDTH, 3))
+                                                   input_shape=(IMG_HEIGHT, IMG_WIDTH, 3))
     model = tf.keras.models.Sequential()
     model.add(base_model)
     model.add(tf.keras.layers.GlobalAveragePooling2D())
@@ -111,8 +112,10 @@ def get_dense_net121():
 
     return model
 
+
 def get_xception_model():
-    base_model = tf.keras.applications.Xception(weights='imagenet', include_top=False, input_shape=(IMG_HEIGHT, IMG_WIDTH, 3))
+    base_model = tf.keras.applications.Xception(weights='imagenet', include_top=False,
+                                                input_shape=(IMG_HEIGHT, IMG_WIDTH, 3))
 
     model = tf.keras.models.Sequential()
     model.add(base_model)
@@ -130,6 +133,7 @@ def get_xception_model():
     model.compile(optimizer='Adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
     return model
+
 
 class Model:
 
@@ -158,7 +162,7 @@ class Model:
 
             model.evaluate(x_test, y_test, verbose=2)
 
-            model.save(filepath= os.path.join(MODEL_DIR,MODEL_NAME), overwrite= True, save_format="keras")
+            model.save(filepath=os.path.join(MODEL_DIR, MODEL_NAME), overwrite=True, save_format="keras")
             print(f"Model saved to {MODEL_DIR}.")
 
         img_to_predict = cv2.imread(image_path)  # Replace with the path to your test image
