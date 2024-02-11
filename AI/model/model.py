@@ -4,6 +4,10 @@ import os
 import sys
 import tensorflow as tf
 import csv
+import time
+import pandas as pd
+from glob import glob
+from PIL import Image
 
 from sklearn.model_selection import train_test_split
 
@@ -22,34 +26,25 @@ CATEGORIES_DICT = {0: 'Actinic keratoses and intraepithelial carcinoma / Bowen\'
                    2: 'dermatofibroma',
                    3: 'vascular lesions (angiomas, angiokeratomas, pyogenic granulomas and hemorrhage)',
                    4: 'melanocytic nevi', 5: 'benign keratosis-like lesions', 6: 'melanoma '}
-
+CATEGORIES_MAP = {'akiec': 0, 'bcc': 1, 'df': 2, 'vasc': 3, 'nv': 4, 'bkl': 5, 'mel': 6}
 
 def load_data():
-    metadata_dict = {}
-    clean_image_list = []
-    label_list = []
+    print("Start loading data...")
+    start_time = time.time()
+    skin_df = pd.read_csv(os.path.join('.', 'data', 'dataverse_files', 'HAM10000_metadata.csv'))
+    image_path = {
+        os.path.splitext(os.path.basename(x))[0]: x
+        for x in glob(os.path.join('data', 'dataverse_files', '*', '*.jpg'))
+    }
+    skin_df['path'] = skin_df['image_id'].map(image_path.get)
+    # Use the path to read images.
+    skin_df['image'] = skin_df['path'].map(lambda x: np.asarray(Image.open(x).resize((IMG_WIDTH, IMG_HEIGHT))))
+    skin_df['dx'] = skin_df['dx'].replace(CATEGORIES_MAP)
 
-    with open(METADATA_FILE, 'r', newline='') as data:
-        reader = csv.reader(data)
-        next(reader, None)
-
-        for line in reader:
-            image_id = line[1]
-            lesion_type = line[2]
-            metadata_dict[image_id] = {
-                'akiec': 0, 'bcc': 1, 'df': 2,
-                'vasc': 3, 'nv': 4, 'bkl': 5, 'mel': 6
-            }[lesion_type]
-
-    for folder_path in [IMAGES_FOLDER_PART1, IMAGES_FOLDER_PART2]:
-        print(f"Start to process the dataset in {folder_path}")
-        for file_name in os.listdir(folder_path):
-            raw_image = cv2.imread(os.path.join(folder_path, file_name))
-            clean_image = cv2.resize(raw_image, (IMG_WIDTH, IMG_HEIGHT))
-            clean_image_list.append(clean_image)
-            label_list.append(metadata_dict.get(file_name[:-4]))
-
-    return clean_image_list, label_list
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    print("Time passed:", elapsed_time, "seconds")
+    return skin_df
 
 
 def get_model():
@@ -145,10 +140,10 @@ class Model:
             model = tf.keras.models.load_model(os.path.join(MODEL_DIR, MODEL_NAME))
         except OSError:
             # Get image arrays and labels for all image files
-            images, labels = load_data()
+            skin_df = load_data()
 
-            labels = np.array(labels)
-            images = np.array(images) / 255.0
+            labels = np.array(skin_df['dx'])
+            images = np.array(skin_df['image']) / 255.0
 
             # Split data into training and testing sets
             labels = tf.keras.utils.to_categorical(labels)
