@@ -8,6 +8,8 @@ import time
 import pandas as pd
 from glob import glob
 from PIL import Image
+from imblearn.over_sampling import SMOTE
+from sklearn.preprocessing import LabelEncoder
 
 from sklearn.model_selection import train_test_split
 
@@ -142,9 +144,25 @@ class Model:
             # Get image arrays and labels for all image files
             skin_df = load_data()
 
-            labels = np.array(skin_df['dx'].tolist())
-            images = np.array(skin_df['image'].tolist())
+            labels = skin_df['dx'].tolist()
+            images = skin_df['image'].tolist()
 
+            labels = LabelEncoder().fit_transform(labels)
+
+            flat_images = []
+            for arr in images:
+                new_arr = arr.reshape(-1)
+                flat_images.append(new_arr)
+
+            oversample = SMOTE()
+            images, labels = oversample.fit_resample(flat_images, labels)
+
+            dimensiones_originales = (75, 100, 3)
+
+            lista_dimensiones_originales = [np.array(arr).reshape(dimensiones_originales) for arr in images]
+
+            labels = np.array(labels)
+            images = np.array(lista_dimensiones_originales) / 255.0
             # Split data into training and testing sets
             labels = tf.keras.utils.to_categorical(labels)
             x_train, x_test, y_train, y_test = train_test_split(
