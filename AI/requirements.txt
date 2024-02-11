@@ -4,6 +4,4 @@ tensorflow
 customtkinter
 numpy
 Pillow
-matplotlib
 pandas
-torchvision

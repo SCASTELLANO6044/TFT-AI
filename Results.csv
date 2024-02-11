@@ -8,3 +8,4 @@ get_convexNetTiny,,,true
 get_denseNet121,88.4,75.89,false
 ,80,75.59,false
 get model (SMOTE),92,83,false
+model2 (SMOTE),93.94,87.15,false

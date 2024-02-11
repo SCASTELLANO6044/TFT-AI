@@ -7,7 +7,6 @@ import csv
 import time
 import pandas as pd
 from glob import glob
-from PIL import Image
 from imblearn.over_sampling import SMOTE
 from sklearn.preprocessing import LabelEncoder
 
@@ -71,27 +70,6 @@ def load_data():
 
 
 def get_model():
-    """Mece
-    Returns a compiled convolutional neural network model. Assume that the
-    `input_shape` of the first layer is `(IMG_WIDTH, IMG_HEIGHT, 3)`.
-    The output layer should have `NUM_CATEGORIES` units, one for each category.
-    """
-
-    model = tf.keras.models.Sequential([
-
-        tf.keras.layers.Conv2D(32, (3, 3), activation='relu', input_shape=(IMG_HEIGHT, IMG_WIDTH, 3)),
-        tf.keras.layers.MaxPooling2D(pool_size=(2, 2)),
-        tf.keras.layers.Flatten(),
-        tf.keras.layers.Dense(128, activation='relu'),
-        tf.keras.layers.Dropout(0.5),
-        tf.keras.layers.Dense(NUM_CATEGORIES, activation='softmax')
-    ])
-
-    model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
-    return model
-
-
-def model_2():
     model = tf.keras.models.Sequential([
         tf.keras.layers.Conv2D(32, (3, 3), activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.001),
                                input_shape=(IMG_HEIGHT, IMG_WIDTH, 3)),
@@ -113,7 +91,7 @@ def model_2():
 
 
 def get_dense_net121():
-    base_model = tf.keras.applications.DenseNet121(weights=None, include_top=False,
+    base_model = tf.keras.applications.DenseNet121(weights='imagenet', include_top=False,
                                                    input_shape=(IMG_HEIGHT, IMG_WIDTH, 3))
     model = tf.keras.models.Sequential()
     model.add(base_model)
