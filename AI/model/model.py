@@ -7,6 +7,7 @@ import csv
 import time
 import pandas as pd
 from glob import glob
+from PIL import Image
 from imblearn.over_sampling import SMOTE
 from sklearn.preprocessing import LabelEncoder
 
@@ -28,6 +29,7 @@ CATEGORIES_DICT = {0: 'Actinic keratoses and intraepithelial carcinoma / Bowen\'
                    3: 'vascular lesions (angiomas, angiokeratomas, pyogenic granulomas and hemorrhage)',
                    4: 'melanocytic nevi', 5: 'benign keratosis-like lesions', 6: 'melanoma '}
 CATEGORIES_MAP = {'akiec': 0, 'bcc': 1, 'df': 2, 'vasc': 3, 'nv': 4, 'bkl': 5, 'mel': 6}
+
 
 def load_data():
     print("Start loading data...")
@@ -65,7 +67,7 @@ def load_data():
     labels = np.array(labels)
     images = np.array(lista_dimensiones_originales) / 255.0
 
-    print("Time passed:", elapsed_time, "seconds")
+    print("Time passed:", str(elapsed_time / 60)[-2:], "minutes")
     return labels, images
 
 
