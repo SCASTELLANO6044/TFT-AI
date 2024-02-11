@@ -142,8 +142,8 @@ class Model:
             # Get image arrays and labels for all image files
             skin_df = load_data()
 
-            labels = np.array(skin_df['dx'])
-            images = np.array(skin_df['image']) / 255.0
+            labels = np.array(skin_df['dx'].tolist())
+            images = np.array(skin_df['image'].tolist())
 
             # Split data into training and testing sets
             labels = tf.keras.utils.to_categorical(labels)
