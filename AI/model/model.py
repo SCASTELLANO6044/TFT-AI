@@ -3,14 +3,8 @@ import numpy as np
 import os
 import sys
 import tensorflow as tf
-import csv
 import time
-import pandas as pd
-from glob import glob
-from PIL import Image
-from imblearn.over_sampling import SMOTE
-from sklearn.preprocessing import LabelEncoder
-
+from model.utils import Utils
 from sklearn.model_selection import train_test_split
 
 EPOCHS = 40
@@ -33,41 +27,26 @@ CATEGORIES_MAP = {'akiec': 0, 'bcc': 1, 'df': 2, 'vasc': 3, 'nv': 4, 'bkl': 5, '
 
 def load_data():
     print("Start loading data...")
+
     start_time = time.time()
-    skin_df = pd.read_csv(os.path.join('.', 'data', 'dataverse_files', 'HAM10000_metadata.csv'))
-    image_path = {
-        os.path.splitext(os.path.basename(x))[0]: x
-        for x in glob(os.path.join('data', 'dataverse_files', '*', '*.jpg'))
-    }
-    skin_df['path'] = skin_df['image_id'].map(image_path.get)
-    # Use the path to read images.
-    skin_df['image'] = skin_df['path'].map(lambda x: np.asarray(Image.open(x).resize((IMG_WIDTH, IMG_HEIGHT))))
-    skin_df['dx'] = skin_df['dx'].replace(CATEGORIES_MAP)
+
+    skin_df = Utils.prepare_dataframe(IMG_WIDTH, IMG_HEIGHT, CATEGORIES_MAP)
 
     end_time = time.time()
     elapsed_time = end_time - start_time
+    print("Time passed:", str(elapsed_time / 60)[-2:], "minutes")
 
-    labels = skin_df['dx'].tolist()
-    images = skin_df['image'].tolist()
+    labels, images = Utils.separete_labels_images(skin_df)
 
-    labels = LabelEncoder().fit_transform(labels)
+    images = Utils.flat_images(images)
 
-    flat_images = []
-    for arr in images:
-        new_arr = arr.reshape(-1)
-        flat_images.append(new_arr)
+    images, labels = Utils.smote_image_generation(images, labels)
 
-    oversample = SMOTE()
-    images, labels = oversample.fit_resample(flat_images, labels)
-
-    dimensiones_originales = (IMG_HEIGHT, IMG_WIDTH, 3)
-
-    lista_dimensiones_originales = [np.array(arr).reshape(dimensiones_originales) for arr in images]
+    images = Utils.unflat_images(images, IMG_WIDTH, IMG_HEIGHT)
 
     labels = np.array(labels)
-    images = np.array(lista_dimensiones_originales) / 255.0
+    images = np.array(images) / 255.0
 
-    print("Time passed:", str(elapsed_time / 60)[-2:], "minutes")
     return labels, images
 
 
@@ -88,47 +67,6 @@ def get_model():
 
     model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=0.0001), loss='categorical_crossentropy',
                   metrics=['accuracy'])
-
-    return model
-
-
-def get_dense_net121():
-    base_model = tf.keras.applications.DenseNet121(weights='imagenet', include_top=False,
-                                                   input_shape=(IMG_HEIGHT, IMG_WIDTH, 3))
-    model = tf.keras.models.Sequential()
-    model.add(base_model)
-    model.add(tf.keras.layers.GlobalAveragePooling2D())
-    model.add(tf.keras.layers.Dense(128, kernel_regularizer=tf.keras.regularizers.l2(0.001), activation='relu'))
-    model.add(tf.keras.layers.Dropout(0.5))
-    model.add(tf.keras.layers.Dense(NUM_CATEGORIES, activation='softmax'))
-
-    # Freeze the layers of the pre-trained Xception model
-    # for layer in base_model.layers:
-    #     layer.trainable = False
-
-    model.compile(optimizer='Adam', loss='categorical_crossentropy', metrics=['accuracy'])
-
-    return model
-
-
-def get_xception_model():
-    base_model = tf.keras.applications.Xception(weights='imagenet', include_top=False,
-                                                input_shape=(IMG_HEIGHT, IMG_WIDTH, 3))
-
-    model = tf.keras.models.Sequential()
-    model.add(base_model)
-    model.add(tf.keras.layers.GlobalAveragePooling2D())
-    model.add(tf.keras.layers.Dense(256, activation='relu'))
-    model.add(tf.keras.layers.Dropout(0.5))
-    model.add(tf.keras.layers.Dense(128, activation='relu'))
-    model.add(tf.keras.layers.Dropout(0.5))
-    model.add(tf.keras.layers.Dense(NUM_CATEGORIES, activation='softmax'))
-
-    # Freeze the layers of the pre-trained Xception model
-    for layer in base_model.layers:
-        layer.trainable = False
-
-    model.compile(optimizer='Adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
     return model
 
