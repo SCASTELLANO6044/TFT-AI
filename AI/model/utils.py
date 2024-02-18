@@ -1,10 +1,14 @@
 import os.path
 import pandas as pd
 import numpy as np
+import warnings
 from glob import glob
 from PIL import Image
 from sklearn.preprocessing import LabelEncoder
 from imblearn.over_sampling import SMOTE
+
+
+warnings.simplefilter(action='ignore', category=FutureWarning)
 
 class Utils:
 
