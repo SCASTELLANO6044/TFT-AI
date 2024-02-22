@@ -5,3 +5,4 @@ customtkinter
 numpy
 Pillow
 pandas
+imblearn
