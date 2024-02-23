@@ -7,8 +7,8 @@ from PIL import Image
 from sklearn.preprocessing import LabelEncoder
 from imblearn.over_sampling import SMOTE
 
-
 warnings.simplefilter(action='ignore', category=FutureWarning)
+
 
 class Utils:
 
@@ -27,7 +27,7 @@ class Utils:
         return skin_df
 
     @staticmethod
-    def separete_labels_images(skin_df):
+    def separate_labels_images(skin_df):
         labels = skin_df['dx'].tolist()
         images = skin_df['image'].tolist()
 
@@ -47,16 +47,15 @@ class Utils:
 
     @staticmethod
     def smote_image_generation(images, labels):
-
         oversample = SMOTE()
         images, labels = oversample.fit_resample(images, labels)
 
         return images, labels
 
     @staticmethod
-    def unflat_images(images, width, height):
-        dimensiones_originales = (height, width, 3)
+    def return_images_to_original_dimensions(images, width, height):
+        original_dimensions = (height, width, 3)
 
-        unflated_image_list = [np.array(arr).reshape(dimensiones_originales) for arr in images]
+        image_list = [np.array(arr).reshape(original_dimensions) for arr in images]
 
-        return unflated_image_list
+        return image_list

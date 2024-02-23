@@ -36,13 +36,13 @@ def load_data():
     elapsed_time = end_time - start_time
     print("Time passed:", str(elapsed_time / 60)[-2:], "minutes")
 
-    labels, images = Utils.separete_labels_images(skin_df)
+    labels, images = Utils.separate_labels_images(skin_df)
 
     images = Utils.flat_images(images)
 
     images, labels = Utils.smote_image_generation(images, labels)
 
-    images = Utils.unflat_images(images, IMG_WIDTH, IMG_HEIGHT)
+    images = Utils.return_images_to_original_dimensions(images, IMG_WIDTH, IMG_HEIGHT)
 
     labels = np.array(labels)
     images = np.array(images) / 255.0
