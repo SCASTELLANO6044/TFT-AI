@@ -14,10 +14,10 @@ class Utils:
 
     @staticmethod
     def prepare_dataframe(width, height, categories_map):
-        skin_df = pd.read_csv(os.path.join(os.path.curdir, 'data', 'dataverse_files', 'HAM10000_metadata.csv'))
+        skin_df = pd.read_csv(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'dataverse_files', 'HAM10000_metadata.csv'))
         image_path = {
             os.path.splitext(os.path.basename(x))[0]: x
-            for x in glob(os.path.join('data', 'dataverse_files', '*', '*.jpg'))
+            for x in glob(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'dataverse_files', '*', '*.jpg'))
         }
         skin_df['path'] = skin_df['image_id'].map(image_path.get)
         # Use the path to read images.

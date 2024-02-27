@@ -13,10 +13,10 @@ IMG_HEIGHT = 75
 NUM_CATEGORIES = 7
 TEST_SIZE = 0.2
 MODEL_NAME = "my_model.keras"
-MODEL_DIR = os.path.join(os.getcwd(), 'data', 'model')
-METADATA_FILE = os.path.join(os.getcwd(), 'data', 'dataverse_files', 'HAM10000_metadata.csv')
-IMAGES_FOLDER_PART1 = os.path.join(os.getcwd(), 'data', 'dataverse_files', 'HAM10000_images_part_1')
-IMAGES_FOLDER_PART2 = os.path.join(os.getcwd(), 'data', 'dataverse_files', 'HAM10000_images_part_2')
+MODEL_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'model')
+METADATA_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'dataverse_files', 'HAM10000_metadata.csv')
+IMAGES_FOLDER_PART1 = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'dataverse_files', 'HAM10000_images_part_1')
+IMAGES_FOLDER_PART2 = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'dataverse_files', 'HAM10000_images_part_2')
 
 CATEGORIES_DICT = {0: 'Actinic keratoses and intraepithelial carcinoma / Bowen\'s disease', 1: 'basal cell carcinoma',
                    2: 'dermatofibroma',
