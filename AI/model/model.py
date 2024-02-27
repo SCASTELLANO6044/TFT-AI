@@ -7,7 +7,7 @@ import time
 from model.utils import Utils
 from sklearn.model_selection import train_test_split
 
-EPOCHS = 40
+EPOCHS = 60
 IMG_WIDTH = 100
 IMG_HEIGHT = 75
 NUM_CATEGORIES = 7
@@ -91,7 +91,9 @@ class Model:
 
             model = get_model()
 
-            model.fit(x_train, y_train, epochs=EPOCHS)
+            early_stopping = tf.keras.callbacks.EarlyStopping(monitor='accuracy', patience=5, restore_best_weights=True)
+
+            model.fit(x_train, y_train, epochs=EPOCHS, callbacks=[early_stopping], verbose=1)
 
             model.evaluate(x_test, y_test, verbose=2)
 
