@@ -29,10 +29,8 @@ pip install -r requirements.txt
 To run the program, use the following command:
 
 ```bash
-python.exe TFT-AI.py [input_image]
+python.exe AI/app.py
 ```
-
-Replace **[input_image]** with the path to the image you want to classify.
 
 ## Hints
 
@@ -48,7 +46,7 @@ Adjust the configuration parameters in the script as needed:
 
 - NUM_CATEGORIES: Number of output categories.
 
-- TEST_SIZE: Percentage of data used for testing.
+- TEST_SIZE: Percentage of data left out of testing.
 
 - MODEL_NAME: Name of the saved model file.
 
