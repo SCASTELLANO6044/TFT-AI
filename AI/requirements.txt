@@ -6,3 +6,4 @@ numpy
 Pillow
 pandas
 imblearn
+cx-Freeze
