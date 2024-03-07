@@ -7,7 +7,7 @@ import time
 from model.utils import Utils
 from sklearn.model_selection import train_test_split
 
-EPOCHS = 60
+EPOCHS = 50
 IMG_WIDTH = 100
 IMG_HEIGHT = 75
 NUM_CATEGORIES = 7
