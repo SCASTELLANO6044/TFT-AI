@@ -1,9 +1,7 @@
 import cv2
 import numpy as np
 import os
-import sys
 import tensorflow as tf
-import time
 from model.utils import Utils
 from sklearn.model_selection import train_test_split
 
@@ -26,17 +24,8 @@ CATEGORIES_MAP = {'akiec': 0, 'bcc': 1, 'df': 2, 'vasc': 3, 'nv': 4, 'bkl': 5, '
 
 
 def load_data():
-    print("Start loading data...")
 
-    start_time = time.time()
-
-    skin_df = Utils.prepare_dataframe(IMG_WIDTH, IMG_HEIGHT, CATEGORIES_MAP)
-
-    end_time = time.time()
-    elapsed_time = end_time - start_time
-    print("Time passed:", str(elapsed_time / 60)[-2:], "minutes")
-
-    labels, images = Utils.separate_labels_images(skin_df)
+    images, labels = Utils.load_images(METADATA_FILE, IMAGES_FOLDER_PART1, IMAGES_FOLDER_PART2, IMG_WIDTH, IMG_HEIGHT)
 
     images = Utils.flat_images(images)
 
