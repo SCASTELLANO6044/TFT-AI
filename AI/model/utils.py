@@ -1,10 +1,8 @@
 import os.path
-import pandas as pd
 import numpy as np
 import warnings
-from glob import glob
-from PIL import Image
-from sklearn.preprocessing import LabelEncoder
+import csv
+import cv2
 from imblearn.over_sampling import SMOTE
 
 warnings.simplefilter(action='ignore', category=FutureWarning)
@@ -13,27 +11,31 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 class Utils:
 
     @staticmethod
-    def prepare_dataframe(width, height, categories_map):
-        skin_df = pd.read_csv(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'dataverse_files', 'HAM10000_metadata.csv'))
-        image_path = {
-            os.path.splitext(os.path.basename(x))[0]: x
-            for x in glob(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'dataverse_files', '*', '*.jpg'))
-        }
-        skin_df['path'] = skin_df['image_id'].map(image_path.get)
-        # Use the path to read images.
-        skin_df['image'] = skin_df['path'].map(lambda x: np.asarray(Image.open(x).resize((width, height))))
-        skin_df['dx'] = skin_df['dx'].replace(categories_map)
+    def load_images(metadata_file, images_folder_part1, images_folder_part2, img_width, img_height):
+        metadata_dict = {}
+        clean_image_list = []
+        label_list = []
 
-        return skin_df
+        with open(metadata_file, 'r', newline='') as data:
+            reader = csv.reader(data)
+            next(reader, None)
 
-    @staticmethod
-    def separate_labels_images(skin_df):
-        labels = skin_df['dx'].tolist()
-        images = skin_df['image'].tolist()
+            for line in reader:
+                image_id = line[1]
+                lesion_type = line[2]
+                metadata_dict[image_id] = {
+                    'akiec': 0, 'bcc': 1, 'df': 2,
+                    'vasc': 3, 'nv': 4, 'bkl': 5, 'mel': 6
+                }[lesion_type]
 
-        labels = LabelEncoder().fit_transform(labels)
+        for folder_path in [images_folder_part1, images_folder_part2]:
+            for file_name in os.listdir(folder_path):
+                raw_image = cv2.imread(os.path.join(folder_path, file_name))
+                clean_image = cv2.resize(raw_image, (img_width, img_height))
+                clean_image_list.append(clean_image)
+                label_list.append(metadata_dict.get(file_name[:-4]))
 
-        return labels, images
+        return clean_image_list, label_list
 
     @staticmethod
     def flat_images(images):
