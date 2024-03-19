@@ -11,19 +11,24 @@ IMG_HEIGHT = 75
 TEST_SIZE = 0.2
 MODEL_NAME = "my_model.keras"
 MODEL_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'model')
-METADATA_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'dataverse_files', 'HAM10000_metadata.csv')
-IMAGES_FOLDER_PART1 = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'dataverse_files', 'HAM10000_images_part_1')
-IMAGES_FOLDER_PART2 = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'dataverse_files', 'HAM10000_images_part_2')
+METADATA_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'dataverse_files',
+                             'HAM10000_metadata.csv')
+IMAGES_FOLDER_PART1 = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'dataverse_files',
+                                   'HAM10000_images_part_1')
+IMAGES_FOLDER_PART2 = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'dataverse_files',
+                                   'HAM10000_images_part_2')
 
-CATEGORIES_DICT = {0: 'Actinic keratoses and intraepithelial carcinoma / Bowen\'s disease', 1: 'basal cell carcinoma',
-                   2: 'dermatofibroma',
-                   3: 'vascular lesions (angiomas, angiokeratomas, pyogenic granulomas and hemorrhage)',
-                   4: 'melanocytic nevi', 5: 'benign keratosis-like lesions', 6: 'melanoma '}
+CATEGORIES_DICT = {0: 'Enfermedad de Bowen',
+                   1: 'basal cell carcinoma',
+                   2: 'Dermatofibroma',
+                   3: 'Lesión Vascular',
+                   4: 'melanocytic nevi',
+                   5: 'benign keratosis-like lesions',
+                   6: 'Melanoma '}
 CATEGORIES_MAP = {'akiec': 0, 'bcc': 1, 'df': 2, 'vasc': 3, 'nv': 4, 'bkl': 5, 'mel': 6}
 
 
 def load_data():
-
     images, labels = Utils.load_images(METADATA_FILE, IMAGES_FOLDER_PART1, IMAGES_FOLDER_PART2, IMG_WIDTH, IMG_HEIGHT)
 
     images = Utils.flat_images(images)
