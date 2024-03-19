@@ -8,7 +8,6 @@ from sklearn.model_selection import train_test_split
 EPOCHS = 50
 IMG_WIDTH = 100
 IMG_HEIGHT = 75
-NUM_CATEGORIES = 7
 TEST_SIZE = 0.2
 MODEL_NAME = "my_model.keras"
 MODEL_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'model')
@@ -51,7 +50,7 @@ def get_model():
         tf.keras.layers.Flatten(),
         tf.keras.layers.Dense(256, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.001)),
         tf.keras.layers.Dropout(0.5),
-        tf.keras.layers.Dense(NUM_CATEGORIES, activation='softmax')
+        tf.keras.layers.Dense(7, activation='softmax')
     ])
 
     model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=0.0001), loss='categorical_crossentropy',
