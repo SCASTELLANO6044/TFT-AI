@@ -40,6 +40,8 @@ def load_data():
     labels = np.array(labels)
     images = np.array(images) / 255.0
 
+    labels = tf.keras.utils.to_categorical(labels)
+
     return labels, images
 
 
@@ -58,7 +60,7 @@ def get_model():
         tf.keras.layers.Dense(7, activation='softmax')
     ])
 
-    model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=0.0001), loss='categorical_crossentropy',
+    model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=0.0001), loss='categorical_crossentropy', #try SparseCategoricalCrossentropy
                   metrics=['accuracy'])
 
     return model
@@ -76,8 +78,6 @@ class Model:
             # Get image arrays and labels for all image files
             labels, images = load_data()
 
-            # Split data into training and testing sets
-            labels = tf.keras.utils.to_categorical(labels)
             x_train, x_test, y_train, y_test = train_test_split(
                 images, labels, test_size=TEST_SIZE, random_state=42
             )
