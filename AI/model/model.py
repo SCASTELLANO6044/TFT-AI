@@ -8,7 +8,6 @@ from sklearn.model_selection import train_test_split
 EPOCHS = 50
 IMG_WIDTH = 100
 IMG_HEIGHT = 75
-TEST_SIZE = 0.2
 MODEL_NAME = "my_model.keras"
 MODEL_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'model')
 METADATA_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'dataverse_files',
@@ -79,7 +78,7 @@ class Model:
             labels, images = load_data()
 
             x_train, x_test, y_train, y_test = train_test_split(
-                images, labels, test_size=TEST_SIZE, random_state=42
+                images, labels, test_size=0.2, random_state=42
             )
 
             model = get_model()
@@ -91,7 +90,6 @@ class Model:
             model.evaluate(x_test, y_test, verbose=2)
 
             model.save(filepath=os.path.join(MODEL_DIR, MODEL_NAME), overwrite=True, save_format="keras")
-            print(f"Model saved to {MODEL_DIR}.")
 
         img_to_predict = cv2.imread(image_path)  # Replace with the path to your test image
         img_to_predict = cv2.resize(img_to_predict, (IMG_WIDTH, IMG_HEIGHT))
