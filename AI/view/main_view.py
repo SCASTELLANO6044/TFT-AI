@@ -1,4 +1,5 @@
 import customtkinter
+import os
 from controller.controller import Controller
 from view.input_view import IntputFrame
 from view.output_view import OutputFrame
@@ -11,6 +12,8 @@ class App(customtkinter.CTk):
 
         self.title("TFT-AI")
         self.geometry("1000x500")
+        self.iconbitmap(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'media',
+                                     'logo_ulpgc_vertical_acronimo_mancheta_azul.ico'))
         self.grid_columnconfigure(1, weight=1)
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, weight=1)
@@ -38,6 +41,7 @@ class App(customtkinter.CTk):
     def browse_file(self):
         file = filedialog.askopenfile()
         self.output_frame.display_image(file.name)
+
 
 app = App()
 app.mainloop()
