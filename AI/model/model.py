@@ -8,23 +8,27 @@ from sklearn.model_selection import train_test_split
 EPOCHS = 50
 IMG_WIDTH = 100
 IMG_HEIGHT = 75
-NUM_CATEGORIES = 7
 TEST_SIZE = 0.2
 MODEL_NAME = "my_model.keras"
 MODEL_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'model')
-METADATA_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'dataverse_files', 'HAM10000_metadata.csv')
-IMAGES_FOLDER_PART1 = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'dataverse_files', 'HAM10000_images_part_1')
-IMAGES_FOLDER_PART2 = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'dataverse_files', 'HAM10000_images_part_2')
+METADATA_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'dataverse_files',
+                             'HAM10000_metadata.csv')
+IMAGES_FOLDER_PART1 = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'dataverse_files',
+                                   'HAM10000_images_part_1')
+IMAGES_FOLDER_PART2 = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'dataverse_files',
+                                   'HAM10000_images_part_2')
 
-CATEGORIES_DICT = {0: 'Actinic keratoses and intraepithelial carcinoma / Bowen\'s disease', 1: 'basal cell carcinoma',
-                   2: 'dermatofibroma',
-                   3: 'vascular lesions (angiomas, angiokeratomas, pyogenic granulomas and hemorrhage)',
-                   4: 'melanocytic nevi', 5: 'benign keratosis-like lesions', 6: 'melanoma '}
+CATEGORIES_DICT = {0: 'Enfermedad de Bowen',
+                   1: 'basal cell carcinoma',
+                   2: 'Dermatofibroma',
+                   3: 'Lesión Vascular',
+                   4: 'melanocytic nevi',
+                   5: 'benign keratosis-like lesions',
+                   6: 'Melanoma '}
 CATEGORIES_MAP = {'akiec': 0, 'bcc': 1, 'df': 2, 'vasc': 3, 'nv': 4, 'bkl': 5, 'mel': 6}
 
 
 def load_data():
-
     images, labels = Utils.load_images(METADATA_FILE, IMAGES_FOLDER_PART1, IMAGES_FOLDER_PART2, IMG_WIDTH, IMG_HEIGHT)
 
     images = Utils.flat_images(images)
@@ -35,6 +39,8 @@ def load_data():
 
     labels = np.array(labels)
     images = np.array(images) / 255.0
+
+    labels = tf.keras.utils.to_categorical(labels)
 
     return labels, images
 
@@ -51,10 +57,10 @@ def get_model():
         tf.keras.layers.Flatten(),
         tf.keras.layers.Dense(256, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.001)),
         tf.keras.layers.Dropout(0.5),
-        tf.keras.layers.Dense(NUM_CATEGORIES, activation='softmax')
+        tf.keras.layers.Dense(7, activation='softmax')
     ])
 
-    model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=0.0001), loss='categorical_crossentropy',
+    model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=0.0001), loss='categorical_crossentropy', #try SparseCategoricalCrossentropy
                   metrics=['accuracy'])
 
     return model
@@ -72,8 +78,6 @@ class Model:
             # Get image arrays and labels for all image files
             labels, images = load_data()
 
-            # Split data into training and testing sets
-            labels = tf.keras.utils.to_categorical(labels)
             x_train, x_test, y_train, y_test = train_test_split(
                 images, labels, test_size=TEST_SIZE, random_state=42
             )

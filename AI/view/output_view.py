@@ -40,5 +40,5 @@ class ImageLabelFrame(customtkinter.CTkFrame):
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(1, weight=1)
 
-        self.image_label = customtkinter.CTkLabel(self, text="Predicción: ", font=("Helvetica", 23))
+        self.image_label = customtkinter.CTkLabel(self, text="Predicción: indeterminada", font=("Helvetica", 23))
         self.image_label.grid(row=0, column=0, padx=0, pady=8, sticky="nsew")
