@@ -17,13 +17,13 @@ IMAGES_FOLDER_PART1 = os.path.join(os.path.dirname(os.path.abspath(__file__)), '
 IMAGES_FOLDER_PART2 = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'dataverse_files',
                                    'HAM10000_images_part_2')
 
-CATEGORIES_DICT = {0: 'Enfermedad de Bowen',
-                   1: 'basal cell carcinoma',
-                   2: 'Dermatofibroma',
-                   3: 'Lesión Vascular',
-                   4: 'melanocytic nevi',
-                   5: 'benign keratosis-like lesions',
-                   6: 'Melanoma '}
+CATEGORIES_DICT = {0: 'Enfermedad de Bowen.',
+                   1: 'Carcinoma de células basales.',
+                   2: 'Dermatofibroma.',
+                   3: 'Lesión Vascular.',
+                   4: 'Lunar común.',
+                   5: 'Queratosis benigna.',
+                   6: 'Melanoma.'}
 CATEGORIES_MAP = {'akiec': 0, 'bcc': 1, 'df': 2, 'vasc': 3, 'nv': 4, 'bkl': 5, 'mel': 6}
 
 
