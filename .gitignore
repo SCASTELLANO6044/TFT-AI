@@ -3,6 +3,7 @@ AI/gtsrb/
 AI/data/dataverse_files/
 AI/data/dataset/
 AI/data/model/
+AI/data/log.log
 AI/logs/
 AI/__pycache__/
 AI/controller/__pycache__/
