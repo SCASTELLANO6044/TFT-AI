@@ -4,7 +4,7 @@ import os
 import tensorflow as tf
 import logging
 import sys
-from utils import Utils
+from model.utils import Utils
 from sklearn.model_selection import train_test_split
 
 EPOCHS = 50
