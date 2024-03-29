@@ -35,9 +35,6 @@ class App(customtkinter.CTk):
         else:
             customtkinter.set_appearance_mode("dark")
 
-    def set_image_label(self, content):
-        self.image_label.configure(self, text=content)
-
     def browse_file(self):
         file = filedialog.askopenfile()
         self.output_frame.display_image(file.name)
