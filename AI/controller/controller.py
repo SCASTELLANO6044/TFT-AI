@@ -1,6 +1,3 @@
-from model.model import Model
-
-
 class Controller:
 
     @staticmethod
@@ -10,4 +7,5 @@ class Controller:
 
     @staticmethod
     def run_ai(image_path):
+        from model.model import Model
         return Model.main(image_path)

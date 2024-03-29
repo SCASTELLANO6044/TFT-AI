@@ -11,7 +11,7 @@ class App(customtkinter.CTk):
         super().__init__()
 
         self.title("TFT-AI")
-        self.geometry("1000x500")
+        self.geometry("1100x500")
         self.iconbitmap(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'media',
                                      'logo_ulpgc_vertical_acronimo_mancheta_azul.ico'))
         self.grid_columnconfigure(1, weight=1)
@@ -34,9 +34,6 @@ class App(customtkinter.CTk):
             customtkinter.set_appearance_mode("light")
         else:
             customtkinter.set_appearance_mode("dark")
-
-    def set_image_label(self, content):
-        self.image_label.configure(self, text=content)
 
     def browse_file(self):
         file = filedialog.askopenfile()
