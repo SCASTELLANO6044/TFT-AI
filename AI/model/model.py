@@ -7,7 +7,7 @@ import sys
 from model.utils import Utils
 from sklearn.model_selection import train_test_split
 
-EPOCHS = 3
+EPOCHS = 50
 IMG_WIDTH = 100
 IMG_HEIGHT = 75
 MODEL_NAME = "my_model.keras"
