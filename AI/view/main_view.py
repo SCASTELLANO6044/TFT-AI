@@ -29,7 +29,8 @@ class App(customtkinter.CTk):
         prediction = Controller.run_ai(self.output_frame.get_image())
         self.output_frame.set_image_label(prediction)
 
-    def change_theme(self):
+    @staticmethod
+    def change_theme():
         if customtkinter.get_appearance_mode() == "Dark":
             customtkinter.set_appearance_mode("light")
         else:
