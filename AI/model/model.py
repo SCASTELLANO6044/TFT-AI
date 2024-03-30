@@ -4,6 +4,7 @@ import os
 import tensorflow as tf
 import logging
 import sys
+# noinspection PyUnresolvedReferences
 from model.utils import Utils
 from sklearn.model_selection import train_test_split
 
@@ -71,7 +72,7 @@ def get_model():
         tf.keras.layers.Dense(7, activation='softmax')
     ])
 
-    model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=0.0001), loss='categorical_crossentropy', #try SparseCategoricalCrossentropy
+    model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=0.0001), loss='categorical_crossentropy',
                   metrics=['accuracy'])
 
     return model
