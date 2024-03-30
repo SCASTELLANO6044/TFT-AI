@@ -38,7 +38,8 @@ class App(customtkinter.CTk):
 
     def browse_file(self):
         file = filedialog.askopenfile()
-        self.output_frame.display_image(file.name)
+        if file is not None:
+            self.output_frame.display_image(file.name)
 
 
 app = App()
