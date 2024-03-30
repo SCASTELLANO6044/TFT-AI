@@ -1,0 +1,100 @@
+ Epoch 1/50
+1174/1174 - 244s - loss: 1.9022 - accuracy: 0.3454 - 244s/epoch - 208ms/step
+Epoch 2/50
+1174/1174 - 199s - loss: 1.5496 - accuracy: 0.4659 - 199s/epoch - 170ms/step
+Epoch 3/50
+1174/1174 - 195s - loss: 1.4165 - accuracy: 0.5203 - 195s/epoch - 166ms/step
+Epoch 4/50
+1174/1174 - 200s - loss: 1.3278 - accuracy: 0.5606 - 200s/epoch - 171ms/step
+Epoch 5/50
+1174/1174 - 199s - loss: 1.2526 - accuracy: 0.5940 - 199s/epoch - 170ms/step
+Epoch 6/50
+1174/1174 - 207s - loss: 1.1828 - accuracy: 0.6247 - 207s/epoch - 176ms/step
+Epoch 7/50
+1174/1174 - 199s - loss: 1.1154 - accuracy: 0.6578 - 199s/epoch - 170ms/step
+Epoch 8/50
+1174/1174 - 203s - loss: 1.0577 - accuracy: 0.6823 - 203s/epoch - 173ms/step
+Epoch 9/50
+1174/1174 - 202s - loss: 1.0053 - accuracy: 0.7094 - 202s/epoch - 172ms/step
+Epoch 10/50
+1174/1174 - 204s - loss: 0.9534 - accuracy: 0.7319 - 204s/epoch - 174ms/step
+Epoch 11/50
+1174/1174 - 206s - loss: 0.9080 - accuracy: 0.7508 - 206s/epoch - 176ms/step
+Epoch 12/50
+1174/1174 - 205s - loss: 0.8695 - accuracy: 0.7690 - 205s/epoch - 175ms/step
+Epoch 13/50
+1174/1174 - 204s - loss: 0.8335 - accuracy: 0.7874 - 204s/epoch - 174ms/step
+Epoch 14/50
+1174/1174 - 203s - loss: 0.7949 - accuracy: 0.8023 - 203s/epoch - 173ms/step
+Epoch 15/50
+1174/1174 - 195s - loss: 0.7663 - accuracy: 0.8177 - 195s/epoch - 166ms/step
+Epoch 16/50
+1174/1174 - 197s - loss: 0.7303 - accuracy: 0.8312 - 197s/epoch - 167ms/step
+Epoch 17/50
+1174/1174 - 194s - loss: 0.7069 - accuracy: 0.8415 - 194s/epoch - 165ms/step
+Epoch 18/50
+1174/1174 - 194s - loss: 0.6827 - accuracy: 0.8509 - 194s/epoch - 165ms/step
+Epoch 19/50
+1174/1174 - 193s - loss: 0.6572 - accuracy: 0.8615 - 193s/epoch - 164ms/step
+Epoch 20/50
+1174/1174 - 195s - loss: 0.6394 - accuracy: 0.8706 - 195s/epoch - 166ms/step
+Epoch 21/50
+1174/1174 - 194s - loss: 0.6219 - accuracy: 0.8787 - 194s/epoch - 165ms/step
+Epoch 22/50
+1174/1174 - 195s - loss: 0.6018 - accuracy: 0.8869 - 195s/epoch - 166ms/step
+Epoch 23/50
+1174/1174 - 194s - loss: 0.5874 - accuracy: 0.8906 - 194s/epoch - 165ms/step
+Epoch 24/50
+1174/1174 - 194s - loss: 0.5662 - accuracy: 0.9004 - 194s/epoch - 165ms/step
+Epoch 25/50
+1174/1174 - 196s - loss: 0.5569 - accuracy: 0.9040 - 196s/epoch - 167ms/step
+Epoch 26/50
+1174/1174 - 194s - loss: 0.5474 - accuracy: 0.9055 - 194s/epoch - 166ms/step
+Epoch 27/50
+1174/1174 - 194s - loss: 0.5362 - accuracy: 0.9112 - 194s/epoch - 165ms/step
+Epoch 28/50
+1174/1174 - 245s - loss: 0.5237 - accuracy: 0.9168 - 245s/epoch - 208ms/step
+Epoch 29/50
+1174/1174 - 385s - loss: 0.5190 - accuracy: 0.9182 - 385s/epoch - 328ms/step
+Epoch 30/50
+1174/1174 - 382s - loss: 0.5027 - accuracy: 0.9249 - 382s/epoch - 325ms/step
+Epoch 31/50
+1174/1174 - 662s - loss: 0.4976 - accuracy: 0.9259 - 662s/epoch - 564ms/step
+Epoch 32/50
+1174/1174 - 330s - loss: 0.4891 - accuracy: 0.9305 - 330s/epoch - 281ms/step
+Epoch 33/50
+1174/1174 - 379s - loss: 0.4793 - accuracy: 0.9321 - 379s/epoch - 323ms/step
+Epoch 34/50
+1174/1174 - 376s - loss: 0.4765 - accuracy: 0.9320 - 376s/epoch - 321ms/step
+Epoch 35/50
+1174/1174 - 378s - loss: 0.4714 - accuracy: 0.9346 - 378s/epoch - 322ms/step
+Epoch 36/50
+1174/1174 - 383s - loss: 0.4580 - accuracy: 0.9395 - 383s/epoch - 326ms/step
+Epoch 37/50
+1174/1174 - 373s - loss: 0.4555 - accuracy: 0.9398 - 373s/epoch - 317ms/step
+Epoch 38/50
+                                                                                                                                                                                                                                                                                                                                                                           1174/1174 - 363s - loss: 0.4276 - accuracy: 0.9484 - 363s/epoch - 309ms/step
+Epoch 43/50
+1174/1174 - 360s - loss: 0.4258 - accuracy: 0.9476 - 360s/epoch - 307ms/step
+Epoch 44/50
+1174/1174 - 363s - loss: 0.4191 - accuracy: 0.9512 - 363s/epoch - 309ms/step
+Epoch 45/50
+1174/1174 - 364s - loss: 0.4188 - accuracy: 0.9502 - 364s/epoch - 310ms/step
+Epoch 46/50
+1174/1174 - 381s - loss: 0.4149 - accuracy: 0.9517 - 381s/epoch - 325ms/step
+Epoch 47/50
+1174/1174 - 372s - loss: 0.4040 - accuracy: 0.9551 - 372s/epoch - 316ms/step
+Epoch 48/50
+1174/1174 - 200s - loss: 0.4040 - accuracy: 0.9547 - 200s/epoch - 170ms/step
+Epoch 49/50
+1174/1174 - 195s - loss: 0.3981 - accuracy: 0.9569 - 195s/epoch - 166ms/step
+Epoch 50/50
+1174/1174 - 197s - loss: 0.3982 - accuracy: 0.9567 - 197s/epoch - 167ms/step
+294/294 - 12s - loss: 0.5676 - accuracy: 0.9026 - 12s/epoch - 42ms/step
+
+1/1 [==============================] - ETA: 0s
+1/1 [==============================] - 0s 102ms/step
+the model.
+17:11:16 [INFO] - [model.py > main() > 128] - Finished to save the model.
+17:11:16 [INFO] - [model.py > main() > 130] - Starting to prepare the prediction.
+17:11:16 [INFO] - [model.py > main() > 142] - Finished to prepare the prediction.
