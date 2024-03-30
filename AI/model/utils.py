@@ -3,7 +3,7 @@ import numpy as np
 import warnings
 import csv
 import cv2
-from imblearn.over_sampling import SMOTE
+from imblearn import over_sampling
 
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
@@ -49,7 +49,7 @@ class Utils:
 
     @staticmethod
     def smote_image_generation(images, labels):
-        oversample = SMOTE()
+        oversample = over_sampling.SMOTE()
         images, labels = oversample.fit_resample(images, labels)
 
         return images, labels
