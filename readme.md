@@ -29,10 +29,12 @@ pip install -r requirements.txt
 To run the program, use the following command:
 
 ```bash
-python.exe AI/app.py
+python.exe AI/TFT-AI.py
 ```
 
 ## Hints
+
+I highly recommend creating a "venv." in the project directory to include there all the dependencies and libraries for the project.
 
 To know what type of disease belongs to the selected image, I would recommend creating a table in a relational database like Postgres with the content of the **HAM10000_metadata.csv** file, in order to make SQL queries related to the selected image.
 
