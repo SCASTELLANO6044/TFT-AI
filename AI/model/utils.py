@@ -3,6 +3,7 @@ import numpy as np
 import warnings
 import csv
 import cv2
+import matplotlib.pyplot as plt
 from imblearn import over_sampling
 
 warnings.simplefilter(action='ignore', category=FutureWarning)
@@ -61,3 +62,31 @@ class Utils:
         image_list = [np.array(arr).reshape(original_dimensions) for arr in images]
 
         return image_list
+
+    @staticmethod
+    def collect_training_results(history):
+
+        media_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'media')
+
+        Utils.loss_metric(history, media_folder)
+        Utils.accuracy_metric(history, media_folder)
+
+    @staticmethod
+    def loss_metric(history, media_folder):
+
+        plt.title("Función de pérdida.")
+        plt.xlabel('Época.')
+        plt.ylabel("Magnitud de pérdida")
+        plt.plot(history.history["loss"])
+
+        plt.savefig(os.path.join(media_folder, 'loss_history.png'))
+
+    @staticmethod
+    def accuracy_metric(history, media_folder):
+
+        plt.title("Función de precisión.")
+        plt.xlabel('Época.')
+        plt.ylabel("Magnitud de precisión")
+        plt.plot(history.history["accuracy"])
+
+        plt.savefig(os.path.join(media_folder, 'accuracy_history.png'))
