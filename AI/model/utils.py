@@ -3,7 +3,10 @@ import numpy as np
 import warnings
 import csv
 import cv2
+import matplotlib.pyplot as plt
 from imblearn import over_sampling
+from sklearn.metrics import confusion_matrix
+import seaborn as sns
 
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
@@ -61,3 +64,50 @@ class Utils:
         image_list = [np.array(arr).reshape(original_dimensions) for arr in images]
 
         return image_list
+
+    @staticmethod
+    def collect_training_results(history, x_test, y_test, model):
+
+        media_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'media')
+
+        Utils.loss_training_metric(history, media_folder)
+        Utils.accuracy_training_metric(history, media_folder)
+        Utils.confusion_matrix(x_test, y_test, model, media_folder)
+
+    @staticmethod
+    def loss_training_metric(history, media_folder):
+
+        plt.title("Pérdida durante el entrenamiento.")
+        plt.xlabel('Época.')
+        plt.plot(history.history["loss"])
+
+        plt.savefig(os.path.join(media_folder, 'loss_training_history.png'))
+
+    @staticmethod
+    def accuracy_training_metric(history, media_folder):
+
+        plt.title("Precisión durante el entrenamiento.")
+        plt.xlabel('Época.')
+        plt.plot(history.history["accuracy"])
+
+        plt.savefig(os.path.join(media_folder, 'accuracy_training_history.png'))
+
+    @staticmethod
+    def confusion_matrix(x_test, y_test, model, media_folder):
+        y_pred = model.predict(x_test)
+
+        y_pred_classes = np.argmax(y_pred, axis=1)
+
+        y_true = np.argmax(y_test, axis=1)
+
+        confusion_mtx = confusion_matrix(y_true, y_pred_classes)
+
+        _, ax = plt.subplots(figsize=(8, 8))
+
+        sns.heatmap(confusion_mtx, annot=True, linewidths=0.01, cmap="Greens", linecolor="gray", fmt='.1f', ax=ax)
+
+        plt.xlabel("Predicted Label")
+        plt.ylabel("True Label")
+        plt.title("Confusion Matrix")
+
+        plt.savefig(os.path.join(media_folder, 'confusion_matrix.png'))
