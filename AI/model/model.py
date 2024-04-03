@@ -117,7 +117,7 @@ class Model:
 
                 training_history = model.fit(x_train, y_train, epochs=EPOCHS, callbacks=[early_stopping], verbose=2)
 
-                Utils.collect_training_results(training_history)
+                Utils.collect_training_results(training_history, x_test, y_test, model)
 
                 model.evaluate(x_test, y_test, verbose=2)
 
