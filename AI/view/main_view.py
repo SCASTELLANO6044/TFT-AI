@@ -42,5 +42,6 @@ class App(customtkinter.CTk):
             self.output_frame.display_image(file.name)
 
 
-app = App()
-app.mainloop()
+if __name__ == "__main__":
+    app = App()
+    app.mainloop()
