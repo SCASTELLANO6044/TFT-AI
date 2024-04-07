@@ -136,7 +136,7 @@ class Model:
             img_to_predict = np.expand_dims(img_to_predict, axis=0)
 
             # Make a prediction
-            prediction = model.predict(img_to_predict)
+            prediction = model.predict(img_to_predict, verbose=2)
 
             # Get the category with the highest probability
             predicted_category = np.argmax(prediction)
