@@ -2,7 +2,7 @@
 
 This project uses TensorFlow to implement a Convolutional Neural Network (CNN) for image classification. The goal is to classify skin lesion images into different categories. The dataset used is HAM10000, which contains skin lesion images with associated metadata.
 
-When this project is executed for the first time it will create, train, evaluate, and save a model to be used in the next executions of the script.
+When this project is executed for the first time it will create, train, evaluate, and save a model to be used in the next script executions.
 
 ## Run Locally
 
@@ -34,9 +34,9 @@ python.exe AI/TFT-AI.py
 
 ## Hints
 
-I highly recommend creating a "venv." in the project directory to include there all the dependencies and libraries for the project.
+I highly recommend creating a "venv." in the project directory to include all the dependencies and libraries for the project.
 
-To know what type of disease belongs to the selected image, I would recommend creating a table in a relational database like Postgres with the content of the **HAM10000_metadata.csv** file, in order to make SQL queries related to the selected image.
+To know what type of disease belongs to the selected image, I would recommend creating a table in a relational database like Postgres with the content of the **HAM10000_metadata.csv** file, to make SQL queries related to the selected image.
 
 ## Configuration
 
@@ -60,7 +60,7 @@ Adjust the configuration parameters in the script as needed:
 
 ## Model Architecture
 
-The implemented CNN model consists of convolutional layers, max-pooling layers, flattening layers, dense layers, and a dropout layer to prevent overfitting. The model is compiled using the Adam optimizer and categorical cross-entropy loss.
+The implemented CNN model consists of convolutional layers, max-pooling layers, flattening layers, dense layers, and a dropout layer to prevent overfitting. The model is compiled using the Adam optimiser and categorical cross-entropy loss.
 
 Feel free to experiment with the model architecture and hyperparameters to achieve better performance.
 
@@ -78,11 +78,11 @@ The HAM10000 dataset is used for training and testing the model. Make sure to ad
 
 - Light/dark mode toggle.
 
-- Cross platform.
+- Cross-platform.
 
 ## Tech Stack
 
-**Desktop applicacion:** Python, opencv-python, scikit-learn, tensorflow, customtkinter, numpy3, Pillow0,pandas, imbalanced-learn, matplotlib, imblearn, auto-py-to-exe, seaborn2 
+**Desktop application:** Python, opencv-python, scikit-learn, TensorFlow, customtkinter, numpy3, Pillow0,pandas, imbalanced-learn, matplotlib, imblearn, auto-py-to-exe, seaborn2 
 
 ## Support
 
