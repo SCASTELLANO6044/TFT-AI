@@ -4,7 +4,7 @@ This project uses TensorFlow to implement a Convolutional Neural Network (CNN) f
 
 When this project is executed for the first time it will create, train, evaluate, and save a model to be used in the next executions of the script.
 
-## Prerequisites
+## Run Locally
 
 Before running the code, make sure you have the necessary libraries installed. You can install them using the following:
 
@@ -71,3 +71,29 @@ The script loads image data and corresponding labels from the provided dataset. 
 ## Dataset
 
 The HAM10000 dataset is used for training and testing the model. Make sure to adjust the paths if you use a different dataset.
+
+## Features
+
+- Ham 10000 dataset prediction with +90% accuracy.
+
+- Light/dark mode toggle.
+
+- Cross platform.
+
+## Tech Stack
+
+**Desktop applicacion:** Python, opencv-python, scikit-learn, tensorflow, customtkinter, numpy3, Pillow0,pandas, imbalanced-learn, matplotlib, imblearn, auto-py-to-exe, seaborn2 
+
+## Support
+
+For support, email sergiocastellanotrabajo@gmail.com.
+
+## Screenshots
+
+![User interface](./AI/media/front-end/view.png "User interface.")
+
+## Authors
+
+- [@SCASTELLANO6044](https://www.github.com/scastellano6044)
+
+<img src="file:///C:/GitHubProjects/TFT-AI/AI/media/ulpgc-logo.png" title="" alt="Logo" data-align="center">
