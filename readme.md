@@ -92,8 +92,8 @@ For support, email sergiocastellanotrabajo@gmail.com.
 
 ![User interface](./AI/media/front-end/view.png "User interface.")
 
-## Authors
+## Author
 
 - [@SCASTELLANO6044](https://www.github.com/scastellano6044)
 
-<img src="file:///C:/GitHubProjects/TFT-AI/AI/media/ulpgc-logo.png" title="" alt="Logo" data-align="center">
+<img title="" src="./AI/media/ulpgc-logo.png" alt="Logo" data-align="center">
