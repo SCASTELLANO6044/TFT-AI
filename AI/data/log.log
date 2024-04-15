@@ -1,5 +1,5 @@
-1/1 - 1s - 591ms/epoch - 591ms/step
-> 88] - Starting to load model from file.
-18:49:34 [INFO] - [model.py > main() > 92] - Finished to load model from file.
-18:49:34 [INFO] - [model.py > main() > 132] - Starting to prepare the prediction.
-18:49:35 [INFO] - [model.py > main() > 144] - Finished to prepare the prediction.
+1/1 - 0s - 66ms/epoch - 66ms/step
+) > 88] - Starting to load model from file.
+19:42:51 [INFO] - [model.py > main() > 92] - Finished to load model from file.
+19:42:51 [INFO] - [model.py > main() > 132] - Starting to prepare the prediction.
+19:42:52 [INFO] - [model.py > main() > 144] - Finished to prepare the prediction.

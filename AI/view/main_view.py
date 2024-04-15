@@ -39,6 +39,7 @@ class App(customtkinter.CTk):
     def browse_file(self):
         file = filedialog.askopenfile()
         if file is not None:
+            self.output_frame.set_image_label("indeterminada.")
             self.output_frame.display_image(file.name)
 
 
