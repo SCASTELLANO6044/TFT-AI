@@ -4,6 +4,7 @@ import warnings
 import csv
 import cv2
 import matplotlib.pyplot as plt
+import config.config as cfg
 from imblearn import over_sampling
 from sklearn.metrics import confusion_matrix
 import seaborn as sns
@@ -26,10 +27,7 @@ class Utils:
             for line in reader:
                 image_id = line[1]
                 lesion_type = line[2]
-                metadata_dict[image_id] = {
-                    'akiec': 0, 'bcc': 1, 'df': 2,
-                    'vasc': 3, 'nv': 4, 'bkl': 5, 'mel': 6
-                }[lesion_type]
+                metadata_dict[image_id] = cfg.categories_map[lesion_type]
 
         for folder_path in [images_folder_part1, images_folder_part2]:
             for file_name in os.listdir(folder_path):
@@ -68,32 +66,30 @@ class Utils:
     @staticmethod
     def collect_training_results(history, x_test, y_test, model):
 
-        media_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'media')
-
-        Utils.loss_training_metric(history, media_folder)
-        Utils.accuracy_training_metric(history, media_folder)
-        Utils.confusion_matrix(x_test, y_test, model, media_folder)
+        Utils.loss_training_metric(history)
+        Utils.accuracy_training_metric(history)
+        Utils.confusion_matrix(x_test, y_test, model)
 
     @staticmethod
-    def loss_training_metric(history, media_folder):
+    def loss_training_metric(history):
 
         plt.title("Pérdida durante el entrenamiento.")
         plt.xlabel('Época.')
         plt.plot(history.history["loss"])
 
-        plt.savefig(os.path.join(media_folder, 'loss_training_history.png'))
+        plt.savefig(cfg.loss_training_histogram_file)
 
     @staticmethod
-    def accuracy_training_metric(history, media_folder):
+    def accuracy_training_metric(history):
 
         plt.title("Precisión durante el entrenamiento.")
         plt.xlabel('Época.')
         plt.plot(history.history["accuracy"])
 
-        plt.savefig(os.path.join(media_folder, 'accuracy_training_history.png'))
+        plt.savefig(cfg.accuracy_training_histogram_file)
 
     @staticmethod
-    def confusion_matrix(x_test, y_test, model, media_folder):
+    def confusion_matrix(x_test, y_test, model):
         y_pred = model.predict(x_test)
 
         y_pred_classes = np.argmax(y_pred, axis=1)
@@ -110,4 +106,4 @@ class Utils:
         plt.ylabel("True Label")
         plt.title("Confusion Matrix")
 
-        plt.savefig(os.path.join(media_folder, 'confusion_matrix.png'))
+        plt.savefig(cfg.confusion_matrix_file)

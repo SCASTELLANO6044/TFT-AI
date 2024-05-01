@@ -1,5 +1,5 @@
 import customtkinter
-import os.path
+import config.config as cfg
 from PIL import Image
 
 
@@ -10,7 +10,7 @@ class OutputFrame(customtkinter.CTkFrame):
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(1, weight=1)
 
-        self.image_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'media', 'ulpgc-logo.png')
+        self.image_path = cfg.image_logo_ulpgc
 
         self.my_image = customtkinter.CTkImage(light_image=Image.open(self.image_path),
                                                size=(400, 210))

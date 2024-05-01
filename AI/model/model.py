@@ -4,22 +4,20 @@ import os
 import tensorflow as tf
 import logging
 import sys
+import config.config as cfg
 # noinspection PyUnresolvedReferences
 from model.utils import Utils
 from sklearn.model_selection import train_test_split
 
-EPOCHS = 50
-IMG_WIDTH = 100
-IMG_HEIGHT = 75
-MODEL_NAME = "my_model.keras"
-MODEL_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'model')
-METADATA_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'dataverse_files',
-                             'HAM10000_metadata.csv')
-IMAGES_FOLDER_PART1 = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'dataverse_files',
-                                   'HAM10000_images_part_1')
-IMAGES_FOLDER_PART2 = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'dataverse_files',
-                                   'HAM10000_images_part_2')
-LOG_FILE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'log.log')
+EPOCHS = cfg.epochs
+IMG_WIDTH = cfg.img_width
+IMG_HEIGHT = cfg.img_height
+MODEL_NAME = cfg.model_name
+MODEL_DIR = cfg.model_directory
+METADATA_FILE = cfg.metadata_file
+IMAGES_FOLDER_PART1 = cfg.images_folder_part1
+IMAGES_FOLDER_PART2 = cfg.images_folder_part2
+LOG_FILE_PATH = cfg.log_path_file
 
 if os.path.exists(LOG_FILE_PATH):
     os.remove(LOG_FILE_PATH)
@@ -30,14 +28,8 @@ logging.basicConfig(format="%(asctime)s [%(levelname)s] - [%(filename)s > %(func
 
 logging.getLogger().setLevel(logging.INFO)
 
-CATEGORIES_DICT = {0: 'Enfermedad de Bowen.',
-                   1: 'Carcinoma de células basales.',
-                   2: 'Dermatofibroma.',
-                   3: 'Lesión Vascular.',
-                   4: 'Lunar común.',
-                   5: 'Queratosis benigna.',
-                   6: 'Melanoma.'}
-CATEGORIES_MAP = {'akiec': 0, 'bcc': 1, 'df': 2, 'vasc': 3, 'nv': 4, 'bkl': 5, 'mel': 6}
+CATEGORIES_DICT = cfg.categories_dict
+CATEGORIES_MAP = cfg.categories_map
 
 
 def load_data():
@@ -131,7 +123,7 @@ class Model:
 
             logging.info("Starting to prepare the prediction.")
 
-            img_to_predict = cv2.imread(image_path)  # Replace with the path to your test image
+            img_to_predict = cv2.imread(image_path)
             img_to_predict = cv2.resize(img_to_predict, (IMG_WIDTH, IMG_HEIGHT))
             img_to_predict = np.expand_dims(img_to_predict, axis=0)
 
